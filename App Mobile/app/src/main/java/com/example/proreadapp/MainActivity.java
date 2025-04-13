@@ -15,51 +15,56 @@ import com.example.proreadapp.Fragment.HomeFragment;
 import com.example.proreadapp.Fragment.OfflineFragment;
 import com.example.proreadapp.Fragment.TheLoaiFragment;
 import com.example.proreadapp.Fragment.TimKiemFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.proreadapp.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+public class MainActivity extends AppCompatActivity{
+
+    private ActivityMainBinding binding;
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
+        //Mac dinh hien HomeFragment
         getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new HomeFragment()).commit();
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            newFragment(item);
+                .replace(R.id.fragment_container, new HomeFragment())
+                .commit();
+
+        //Chon muc trong BottomNavigation
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            changeFragment(item);
             return true;
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        //Dong bo giao dien
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-
-    public void newFragment(MenuItem item){
+    public void changeFragment(MenuItem item){
         Fragment selectedFragment = null;
+        int itemId = item.getItemId();
 
-        if(item.getItemId() == R.id.nav_home){
+        //Chon fragment de chuyen
+        if(itemId == R.id.nav_home){
             selectedFragment = new HomeFragment();
         }
-        if(item.getItemId() == R.id.nav_theloai){
+        if(itemId == R.id.nav_theloai){
             selectedFragment = new TheLoaiFragment();
         }
-        if(item.getItemId() == R.id.nav_offline){
-            selectedFragment = new OfflineFragment();
-        }
-        if(item.getItemId() == R.id.nav_timkiem){
+        if(itemId == R.id.nav_timkiem){
             selectedFragment = new TimKiemFragment();
         }
+        if(itemId == R.id.nav_offline){
+            selectedFragment = new OfflineFragment();
+        }
 
-        if (selectedFragment != null) {
+        //Chuyen fragment
+        if(selectedFragment != null){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, selectedFragment)
                     .commit();

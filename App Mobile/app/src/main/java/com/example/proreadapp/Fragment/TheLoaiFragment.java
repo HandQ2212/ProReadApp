@@ -4,19 +4,65 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.proreadapp.R;
+import com.example.proreadapp.adapter.CategoryAdapter;
+import com.example.proreadapp.databinding.FragmentTheLoaiBinding;
+import com.example.proreadapp.viewmodel.CategoryViewModel;
 
 public class TheLoaiFragment extends Fragment {
+
+    private FragmentTheLoaiBinding binding;
+    private CategoryViewModel viewModel;
+    private CategoryAdapter adapter;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_the_loai, container, false);
+        binding = FragmentTheLoaiBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
+
+        adapter = new CategoryAdapter(category -> {
+            // Chuyển sang màn hình hiển thị danh sách truyện thuộc thể loại
+            Toast.makeText(getContext(), "Chọn: " + category, Toast.LENGTH_SHORT).show();
+        });
+
+        binding.categoryRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.categoryRecyclerView.setAdapter(adapter);
+
+        viewModel.getCategories().observe(getViewLifecycleOwner(), adapter::setCategories);
+
+        // Thêm một số thể loại mặc định nếu danh sách đang trống
+        if (viewModel.getCategories().getValue().isEmpty()) {
+            viewModel.addCategory("TYT");
+            viewModel.addCategory("TYT Đoản Văn");
+            viewModel.addCategory("Ngôn Tình");
+            viewModel.addCategory("Đam Mỹ");
+            viewModel.addCategory("Ngược");
+            viewModel.addCategory("Sủng");
+            viewModel.addCategory("Xuyên Không");
+            viewModel.addCategory("Niên Đại");
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

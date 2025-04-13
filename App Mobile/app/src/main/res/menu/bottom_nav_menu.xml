@@ -10,12 +10,12 @@
         android:title="Thể Loại"/>
 
     <item
-        android:id="@+id/nav_offline"
-        android:title="Offline"/>
-
-    <item
         android:id="@+id/nav_timkiem"
         android:title="Tìm kiếm"/>
+
+    <item
+        android:id="@+id/nav_offline"
+        android:title="Offline"/>
 
 
 </menu>
