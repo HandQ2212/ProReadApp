@@ -1,6 +1,5 @@
 package com.example.proreadapp;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,10 +11,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.proreadapp.Fragment.HomeFragment;
-import com.example.proreadapp.Fragment.OfflineFragment;
-import com.example.proreadapp.Fragment.TheLoaiFragment;
-import com.example.proreadapp.Fragment.TimKiemFragment;
+import com.example.proreadapp.fragment.HomeFragment;
+import com.example.proreadapp.fragment.OfflineFragment;
+import com.example.proreadapp.fragment.TheLoaiFragment;
+import com.example.proreadapp.fragment.TimKiemFragment;
 import com.example.proreadapp.databinding.ActivityMainBinding;
 
 

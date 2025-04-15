@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#FFFFFF"
     android:padding="16dp">
 
     <LinearLayout
@@ -16,7 +16,6 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/sample_cover"
             android:scaleType="centerCrop" />
 
         <!-- Tiêu đề truyện -->
@@ -24,10 +23,10 @@
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mục Thần Ký"
+            android:text="Title"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:layout_marginTop="12dp"
             android:layout_gravity="center_horizontal" />
 
@@ -36,7 +35,7 @@
             android:id="@+id/textAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trạch Trư"
+            android:text="Author"
             android:textColor="#00BFFF"
             android:layout_gravity="center_horizontal" />
 
@@ -45,11 +44,11 @@
             android:id="@+id/textInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đang ra • 6 thg 3, 2023\n1349 chương • Đang xem: 2"
-            android:textColor="#CCCCCC"
+            android:text="Info"
+            android:textColor="#000000"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="6dp" />
-
+        <!--Dùng recycle view-->
         <!-- Button thể loại -->
         <LinearLayout
             android:orientation="horizontal"
@@ -60,16 +59,10 @@
 
             <Button
                 android:id="@+id/btnTienHiep"
-                android:text="Tiên Hiệp"
+                android:text="Thể loại"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btnHuyenHuyen"
-                android:text="Huyền Huyễn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"/>
         </LinearLayout>
 
         <!-- Chương gần nhất -->
@@ -77,8 +70,8 @@
             android:id="@+id/textRecentChapters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Các số gần nhất"
-            android:textColor="#FFFFFF"
+            android:text="Các chương gần nhất"
+            android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginTop="16dp" />
 
@@ -87,11 +80,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp">
-
+            <!--Dùng recycle view-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1349 1348 1347 1346 1345"
+                android:text="1 2 3 4"
                 android:textColor="#CCCCCC" />
         </LinearLayout>
 
