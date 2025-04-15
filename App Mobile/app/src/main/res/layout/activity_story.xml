@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Ảnh bìa -->
+        <ImageView
+            android:id="@+id/imageCover"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/sample_cover"
+            android:scaleType="centerCrop" />
+
+        <!-- Tiêu đề truyện -->
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mục Thần Ký"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Tác giả -->
+        <TextView
+            android:id="@+id/textAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trạch Trư"
+            android:textColor="#00BFFF"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Thông tin khác -->
+        <TextView
+            android:id="@+id/textInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đang ra • 6 thg 3, 2023\n1349 chương • Đang xem: 2"
+            android:textColor="#CCCCCC"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp" />
+
+        <!-- Button thể loại -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btnTienHiep"
+                android:text="Tiên Hiệp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnHuyenHuyen"
+                android:text="Huyền Huyễn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- Chương gần nhất -->
+        <TextView
+            android:id="@+id/textRecentChapters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Các số gần nhất"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1349 1348 1347 1346 1345"
+                android:textColor="#CCCCCC" />
+        </LinearLayout>
+
+        <!-- Mô tả -->
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#CCCCCC"
+            android:layout_marginTop="12dp"
+            android:text="Mô tả truyện..." />
+    </LinearLayout>
+</ScrollView>

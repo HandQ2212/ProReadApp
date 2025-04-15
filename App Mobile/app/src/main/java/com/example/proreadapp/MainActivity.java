@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.proreadapp.Fragment.HomeFragment;
 import com.example.proreadapp.Fragment.OfflineFragment;
@@ -64,10 +65,10 @@ public class MainActivity extends AppCompatActivity{
         }
 
         //Chuyen fragment
-        if(selectedFragment != null){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit();
+        if (selectedFragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, selectedFragment);
+            transaction.commit();
         }
     }
 }

@@ -10,13 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.proreadapp.R;
+import com.example.proreadapp.databinding.FragmentOfflineBinding;
 
 public class OfflineFragment extends Fragment {
-    @Nullable
+    private FragmentOfflineBinding binding;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_offline, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        binding = FragmentOfflineBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }

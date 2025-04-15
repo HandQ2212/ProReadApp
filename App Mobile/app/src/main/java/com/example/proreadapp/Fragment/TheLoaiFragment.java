@@ -25,25 +25,24 @@ public class TheLoaiFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTheLoaiBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
 
         adapter = new CategoryAdapter(category -> {
             // Chuyển sang màn hình hiển thị danh sách truyện thuộc thể loại
-            Toast.makeText(getContext(), "Chọn: " + category, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Chọn thể loại: " + category, Toast.LENGTH_SHORT).show();
         });
 
-        binding.categoryRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        binding.categoryRecyclerView.setAdapter(adapter);
+        binding.theLoaiRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.theLoaiRecyclerView.setAdapter(adapter);
 
         viewModel.getCategories().observe(getViewLifecycleOwner(), adapter::setCategories);
 

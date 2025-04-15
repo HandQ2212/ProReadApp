@@ -10,13 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.proreadapp.R;
+import com.example.proreadapp.databinding.FragmentTimKiemBinding;
 
 public class TimKiemFragment extends Fragment {
-    @Nullable
+    private FragmentTimKiemBinding binding;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tim_kiem, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        binding = FragmentTimKiemBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
+
 }
