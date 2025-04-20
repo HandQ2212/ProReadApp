@@ -23,12 +23,12 @@
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="12dp"
-            android:layout_gravity="center_horizontal" />
+            android:text="Title"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <!-- Tác giả -->
         <TextView
@@ -96,5 +96,13 @@
             android:textColor="#CCCCCC"
             android:layout_marginTop="12dp"
             android:text="Mô tả truyện..." />
+
+        <Button
+            android:id="@+id/btnRead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đọc truyện"
+            android:layout_marginTop="24dp" />
+
     </LinearLayout>
 </ScrollView>

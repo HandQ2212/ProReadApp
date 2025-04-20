@@ -1,5 +1,6 @@
 package com.example.proreadapp.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,5 +47,13 @@ public class StoryDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.btnRead.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChapterReaderActivity.class);
+            intent.putExtra("chapter_id", 1); // Hoặc truyền theo kiểu bạn muốn (ví dụ chapter đầu tiên)
+            intent.putExtra("story_title", storyDetailViewModel.getStoryLiveData().getValue().getTitle());
+            startActivity(intent);
+        });
+
     }
 }

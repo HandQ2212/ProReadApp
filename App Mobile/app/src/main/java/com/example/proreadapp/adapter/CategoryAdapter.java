@@ -29,11 +29,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCategoryBinding binding = ItemCategoryBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false);
+        ItemCategoryBinding binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new CategoryViewHolder(binding);
     }
 
@@ -51,7 +49,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
         ItemCategoryBinding binding;
-
         public CategoryViewHolder(ItemCategoryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

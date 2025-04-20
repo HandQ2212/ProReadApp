@@ -226,7 +226,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Đánh giá truyện bởi bạn đọc TYT"
+                    android:text="Đánh giá truyện"
                     android:backgroundTint="#F2F2F2"
                     android:textColor="#000000"
                     android:padding="12dp"
