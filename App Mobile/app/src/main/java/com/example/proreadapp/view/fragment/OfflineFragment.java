@@ -1,4 +1,4 @@
-package com.example.proreadapp.fragment;
+package com.example.proreadapp.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.example.proreadapp.fragment;
+package com.example.proreadapp.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,14 +44,11 @@ public class TheLoaiFragment extends Fragment {
 
         viewModel.getCategories().observe(getViewLifecycleOwner(), adapter::setCategories);
 
-        // Thêm một số thể loại mặc định nếu danh sách đang trống
         if (viewModel.getCategories().getValue().isEmpty()) {
-            viewModel.addCategory("TYT");
-            viewModel.addCategory("TYT Đoản Văn");
             viewModel.addCategory("Ngôn Tình");
-            viewModel.addCategory("Đam Mỹ");
             viewModel.addCategory("Ngược");
-            viewModel.addCategory("Sủng");
+            viewModel.addCategory("Huyền Huyễn");
+            viewModel.addCategory("Khoa học");
             viewModel.addCategory("Xuyên Không");
             viewModel.addCategory("Niên Đại");
         }

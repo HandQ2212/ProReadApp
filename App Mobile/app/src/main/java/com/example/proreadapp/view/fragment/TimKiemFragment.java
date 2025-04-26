@@ -1,4 +1,4 @@
-package com.example.proreadapp.fragment;
+package com.example.proreadapp.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.proreadapp.databinding.FragmentHomeBinding;
+import com.example.proreadapp.databinding.FragmentTimKiemBinding;
 
-public class HomeFragment extends Fragment {
-    private FragmentHomeBinding binding;
+public class TimKiemFragment extends Fragment {
+    private FragmentTimKiemBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentTimKiemBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

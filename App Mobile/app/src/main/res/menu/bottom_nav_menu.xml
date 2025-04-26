@@ -17,5 +17,8 @@
         android:id="@+id/nav_offline"
         android:title="Offline"/>
 
+    <item
+        android:id="@+id/nav_setting"
+        android:title="Setting"/>
 
 </menu>
