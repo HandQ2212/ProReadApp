@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.proreadapp.databinding.FragmentTimKiemBinding;
 
-public class TimKiemFragment extends Fragment {
+public class TimKiemFragment extends Fragment{
     private FragmentTimKiemBinding binding;
 
     @Override

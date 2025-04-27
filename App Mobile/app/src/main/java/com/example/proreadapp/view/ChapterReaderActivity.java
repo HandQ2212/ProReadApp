@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proreadapp.R;
 
-public class ChapterReaderActivity extends AppCompatActivity {
+public class ChapterReaderActivity extends AppCompatActivity{
 
     private TextView textTitle, textContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doc_truyen_xml); // Layout bạn đã gửi trước
 

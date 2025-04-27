@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.proreadapp.R;
 import com.example.proreadapp.databinding.FragmentSettingBinding;
+import com.example.proreadapp.model.Story;
+import com.example.proreadapp.viewmodel.StoryViewModel;
 
 public class SettingFragment extends Fragment {
     private FragmentSettingBinding binding;
@@ -20,26 +24,29 @@ public class SettingFragment extends Fragment {
         setUpDefaultTheme();
         setUpSwitchListener();
 
-        return  binding.getRoot();
+        return binding.getRoot();
     }
-    public void setUpDefaultTheme(){
+
+    public void setUpDefaultTheme() {
         int currentMode = AppCompatDelegate.getDefaultNightMode();
         binding.switchTheme.setChecked(currentMode == AppCompatDelegate.MODE_NIGHT_YES);
     }
 
-    public void setUpSwitchListener(){
+    public void setUpSwitchListener() {
         binding.switchTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked)   setDarkMode();
+            if (isChecked) setDarkMode();
             else setLightMode();
         });
-//Lỗi sau khi switch tự động quay về home mà tab menu vẫn ở setting
     }
-    public void setDarkMode(){
+
+    public void setDarkMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
-    public void setLightMode(){
+
+    public void setLightMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
+
 
     @Override
     public void onDestroyView() {

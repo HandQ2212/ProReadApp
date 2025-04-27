@@ -7,16 +7,16 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryViewModel extends ViewModel {
+public class CategoryViewModel extends ViewModel{
     private final MutableLiveData<List<String>> categoryList = new MutableLiveData<>(new ArrayList<>());
 
-    public LiveData<List<String>> getCategories() {
+    public LiveData<List<String>> getCategories(){
         return categoryList;
     }
 
-    public void addCategory(String category) {
+    public void addCategory(String category){
         List<String> current = categoryList.getValue();
-        if (!current.contains(category)) {
+        if (!current.contains(category)){
             current.add(category);
             categoryList.setValue(current);
         }

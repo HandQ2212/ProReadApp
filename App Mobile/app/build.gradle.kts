@@ -1,12 +1,12 @@
-plugins {
+plugins{
     alias(libs.plugins.android.application)
 }
 
-android {
+android{
     namespace = "com.example.proreadapp"
     compileSdk = 35
 
-    defaultConfig {
+    defaultConfig{
         applicationId = "com.example.proreadapp"
         minSdk = 24
         targetSdk = 35
@@ -16,8 +16,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
+    buildTypes{
+        release{
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -25,18 +25,18 @@ android {
             )
         }
     }
-    compileOptions {
+    compileOptions{
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    buildFeatures {
+    buildFeatures{
         viewBinding = true
         dataBinding = true
     }
 }
 
-dependencies {
+dependencies{
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("com.google.android.material:material:1.9.0")
+    implementation(libs.room.common.jvm)
+    implementation(libs.room.runtime.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

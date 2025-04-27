@@ -16,7 +16,7 @@ import com.example.proreadapp.model.Story;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfflineFragment extends Fragment {
+public class OfflineFragment extends Fragment{
     private FragmentOfflineBinding binding;
     private List<Story> storyList;
 
@@ -29,7 +29,7 @@ public class OfflineFragment extends Fragment {
     }
 
 
-    private void initData() {
+    private void initData(){
         storyList = new ArrayList<>();
         storyList.add(new Story(
                 "Sample Title 1",
@@ -47,7 +47,7 @@ public class OfflineFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView(){
         super.onDestroyView();
         binding = null;
     }

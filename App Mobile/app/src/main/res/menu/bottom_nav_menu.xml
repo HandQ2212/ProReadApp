@@ -3,22 +3,27 @@
 
     <item
         android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
         android:title="Home"/>
 
     <item
         android:id="@+id/nav_theloai"
+        android:icon="@drawable/ic_theloai"
         android:title="Thể Loại"/>
 
     <item
         android:id="@+id/nav_timkiem"
+        android:icon="@drawable/ic_timkiem"
         android:title="Tìm kiếm"/>
 
     <item
         android:id="@+id/nav_offline"
+        android:icon="@drawable/ic_offline"
         android:title="Offline"/>
 
     <item
         android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_setting"
         android:title="Setting"/>
 
 </menu>

@@ -13,27 +13,27 @@ import com.example.proreadapp.view.StoryDetailActivity;
 
 import java.util.List;
 
-public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
+public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder>{
     private final Context context;
     private final List<Story> storyList;
 
-    public StoryAdapter(Context context, List<Story> storyList) {
+    public StoryAdapter(Context context, List<Story> storyList){
         this.context = context;
         this.storyList = storyList;
     }
     @Override
-    public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         ItemStoryBinding binding = ItemStoryBinding.inflate(LayoutInflater.from(context), parent, false);
         return new StoryViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder( StoryViewHolder holder, int position) {
+    public void onBindViewHolder( StoryViewHolder holder, int position){
         Story story = storyList.get(position);
         holder.binding.textTitle.setText(story.getTitle());
         holder.binding.imageCover.setImageResource(story.getImageResId());
 
-        holder.binding.imageCover.setOnClickListener(v -> {
+        holder.binding.imageCover.setOnClickListener(v ->{
             Intent intent = new Intent(context, StoryDetailActivity.class);
             intent.putExtra("title", story.getTitle());
             intent.putExtra("author", story.getAuthor());
@@ -45,14 +45,14 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return storyList.size();
     }
 
-    public static class StoryViewHolder extends RecyclerView.ViewHolder {
+    public static class StoryViewHolder extends RecyclerView.ViewHolder{
         final ItemStoryBinding binding;
 
-        public StoryViewHolder(ItemStoryBinding binding) {
+        public StoryViewHolder(ItemStoryBinding binding){
             super(binding.getRoot());
             this.binding = binding;
         }

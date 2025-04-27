@@ -15,7 +15,7 @@ import com.example.proreadapp.adapter.CategoryAdapter;
 import com.example.proreadapp.databinding.FragmentTheLoaiBinding;
 import com.example.proreadapp.viewmodel.CategoryViewModel;
 
-public class TheLoaiFragment extends Fragment {
+public class TheLoaiFragment extends Fragment{
 
     private FragmentTheLoaiBinding binding;
     private CategoryViewModel viewModel;
@@ -23,7 +23,7 @@ public class TheLoaiFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         binding = FragmentTheLoaiBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -34,7 +34,7 @@ public class TheLoaiFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
 
-        adapter = new CategoryAdapter(category -> {
+        adapter = new CategoryAdapter(category ->{
             // Chuyển sang màn hình hiển thị danh sách truyện thuộc thể loại
             Toast.makeText(getContext(), "Chọn thể loại: " + category, Toast.LENGTH_SHORT).show();
         });
@@ -44,7 +44,7 @@ public class TheLoaiFragment extends Fragment {
 
         viewModel.getCategories().observe(getViewLifecycleOwner(), adapter::setCategories);
 
-        if (viewModel.getCategories().getValue().isEmpty()) {
+        if (viewModel.getCategories().getValue().isEmpty()){
             viewModel.addCategory("Ngôn Tình");
             viewModel.addCategory("Ngược");
             viewModel.addCategory("Huyền Huyễn");
@@ -55,7 +55,7 @@ public class TheLoaiFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView(){
         super.onDestroyView();
         binding = null;
     }

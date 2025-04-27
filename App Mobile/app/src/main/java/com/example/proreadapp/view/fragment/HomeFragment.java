@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.proreadapp.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     private FragmentHomeBinding binding;
 
     @Override
