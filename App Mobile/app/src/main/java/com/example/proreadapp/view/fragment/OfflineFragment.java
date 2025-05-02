@@ -18,32 +18,67 @@ import java.util.List;
 
 public class OfflineFragment extends Fragment{
     private FragmentOfflineBinding binding;
-    private List<Story> storyList;
+    //Cac story sau se duoc thay bang id de giam thieu thoi gian truy cap database
+    private List<Story> recentlyReadStoryList;
+    private List<Story> favoriteStoryList;
+    private List<Story> downloadedStoryList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         binding = FragmentOfflineBinding.inflate(inflater, container, false);
         initData();
-        setupRecyclerView();
+        setupRecentlyReadStoryList();
+        setupFavoriteStoryList();
+        setupDownloadedStoryList();
         return binding.getRoot();
     }
 
 
     private void initData(){
-        storyList = new ArrayList<>();
-        storyList.add(new Story(
+        recentlyReadStoryList = new ArrayList<>();
+        recentlyReadStoryList.add(new Story(
                 "Sample Title 1",
                 "Sample Author 1",
                 "Sample Info 1",
                 "Sample Description 1",
                 R.drawable.mucthanky1618392290// Thay bằng ID ảnh trong thư mục res/drawable
         ));
+
+        favoriteStoryList = new ArrayList<>();
+        favoriteStoryList.add(new Story(
+                "Sample Title 2",
+                "Sample Author 2",
+                "Sample Info 2",
+                "Sample Description 2",
+                R.drawable.mucthanky1618392290
+        ));
+
+        downloadedStoryList = new ArrayList<>();
+        downloadedStoryList.add(new Story(
+                "Sample Title 3",
+                "Sample Author 3",
+                "Sample Info 3",
+                "Sample Description 3",
+                R.drawable.mucthanky1618392290
+        ));
     }
 
-    private void setupRecyclerView(){
-        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), storyList);
+    private void setupRecentlyReadStoryList(){
+        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), recentlyReadStoryList);
         binding.recyclerViewOffline.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerViewOffline.setAdapter(storyAdapter);
+    }
+
+    private void setupFavoriteStoryList(){
+        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), favoriteStoryList);
+        binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.recyclerViewFavorites.setAdapter(storyAdapter);
+    }
+
+    private void setupDownloadedStoryList(){
+        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), downloadedStoryList);
+        binding.recyclerViewDownloads.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.recyclerViewDownloads.setAdapter(storyAdapter);
     }
 
     @Override

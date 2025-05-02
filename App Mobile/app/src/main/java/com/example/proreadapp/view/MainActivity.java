@@ -9,6 +9,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.proreadapp.R;
 import com.example.proreadapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity{
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void setupNavigation(){
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(binding.navHostFragment.getId());
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment); // nhanh hon truoc
         if(navHostFragment != null){
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(binding.bottomNavigation, navController);

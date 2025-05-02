@@ -3,11 +3,11 @@
     <color name="black">#FFFFFF</color>
     <color name="white">#000000</color>
     <color name="text_color">#FFFFFF</color>
-    <color name="purple_500">#BB86FC</color> <!-- Màu tím sáng hơn trong chế độ tối -->
-    <color name="purple_700">#3700B3</color> <!-- Vẫn giữ màu tím đậm -->
+    <color name="purple_500">#BB86FC</color>
+    <color name="purple_700">#3700B3</color>
     <color name="teal_200">#03DAC5</color>
     <color name="teal_700">#018786</color>
-    <color name="blue">#6200EE</color> <!-- Màu xanh tím thay đổi cho chế độ tối -->
-    <color name="gray">#BDBDBD</color> <!-- Màu xám sáng hơn trong chế độ tối -->
+    <color name="blue">#2196F3</color>
+    <color name="gray">#BDBDBD</color>
     <color name="dark_gray">#424242</color>
 </resources>
