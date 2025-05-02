@@ -219,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bộ lọc truyện nâng cao"
                     android:backgroundTint="#F2F2F2"
-                    android:textColor="#000000"
+                    android:textColor="@color/text_color"
                     android:padding="12dp"
                     android:elevation="2dp" />
 
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:text="Đánh giá truyện"
                     android:backgroundTint="#F2F2F2"
-                    android:textColor="#000000"
+                    android:textColor="@color/text_color"
                     android:padding="12dp"
                     android:elevation="2dp" />
 
@@ -237,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bộ sưu tập truyện hay mới chia sẻ"
                     android:backgroundTint="#F2F2F2"
-                    android:textColor="#000000"
+                    android:textColor="@color/text_color"
                     android:padding="12dp"
                     android:elevation="2dp" />
             </LinearLayout>

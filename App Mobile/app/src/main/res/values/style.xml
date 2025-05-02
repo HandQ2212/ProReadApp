@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Style cho chữ khi được chọn -->
     <style name="ActiveTextAppearance" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textSize">10sp</item>
