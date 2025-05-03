@@ -1,5 +1,6 @@
 plugins{
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android{
@@ -44,6 +45,9 @@ dependencies{
     implementation(libs.constraintlayout)
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("com.google.android.material:material:1.9.0")
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation(libs.room.common.jvm)
     implementation(libs.room.runtime.android)
     testImplementation(libs.junit)

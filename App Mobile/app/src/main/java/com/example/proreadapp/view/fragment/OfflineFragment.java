@@ -41,7 +41,7 @@ public class OfflineFragment extends Fragment{
                 "Sample Author 1",
                 "Sample Info 1",
                 "Sample Description 1",
-                R.drawable.mucthanky1618392290// Thay bằng ID ảnh trong thư mục res/drawable
+                R.drawable.mucthanky1618392290 //demo nen fix cung
         ));
 
         favoriteStoryList = new ArrayList<>();
