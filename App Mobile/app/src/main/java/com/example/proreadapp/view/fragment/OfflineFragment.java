@@ -12,75 +12,42 @@ import com.example.proreadapp.R;
 import com.example.proreadapp.adapter.StoryAdapter;
 import com.example.proreadapp.databinding.FragmentOfflineBinding;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.viewmodel.OfflineViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.lifecycle.ViewModelProvider;
 
 public class OfflineFragment extends Fragment{
     private FragmentOfflineBinding binding;
-    //Cac story sau se duoc thay bang id de giam thieu thoi gian truy cap database
-    private List<Story> recentlyReadStoryList;
-    private List<Story> favoriteStoryList;
-    private List<Story> downloadedStoryList;
+    private OfflineViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         binding = FragmentOfflineBinding.inflate(inflater, container, false);
-        initData();
-        setupRecentlyReadStoryList();
-        setupFavoriteStoryList();
-        setupDownloadedStoryList();
+        viewModel = new ViewModelProvider(this).get(OfflineViewModel.class);
+
+        observeData();
+
         return binding.getRoot();
     }
+    private void observeData(){
+        viewModel.getRecentlyReadStories().observe(getViewLifecycleOwner(), stories ->{
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewOffline.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewOffline.setAdapter(adapter);
+        });
 
+        viewModel.getFavoriteStories().observe(getViewLifecycleOwner(), stories ->{
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewFavorites.setAdapter(adapter);
+        });
 
-    private void initData(){
-        recentlyReadStoryList = new ArrayList<>();
-        recentlyReadStoryList.add(new Story(
-                "Sample Title 1",
-                "Sample Author 1",
-                "Sample Info 1",
-                "Sample Description 1",
-                R.drawable.mucthanky1618392290 //demo nen fix cung
-        ));
-
-        favoriteStoryList = new ArrayList<>();
-        favoriteStoryList.add(new Story(
-                "Sample Title 2",
-                "Sample Author 2",
-                "Sample Info 2",
-                "Sample Description 2",
-                R.drawable.mucthanky1618392290
-        ));
-
-        downloadedStoryList = new ArrayList<>();
-        downloadedStoryList.add(new Story(
-                "Sample Title 3",
-                "Sample Author 3",
-                "Sample Info 3",
-                "Sample Description 3",
-                R.drawable.mucthanky1618392290
-        ));
+        viewModel.getDownloadedStories().observe(getViewLifecycleOwner(), stories ->{
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewDownloads.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewDownloads.setAdapter(adapter);
+        });
     }
-
-    private void setupRecentlyReadStoryList(){
-        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), recentlyReadStoryList);
-        binding.recyclerViewOffline.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.recyclerViewOffline.setAdapter(storyAdapter);
-    }
-
-    private void setupFavoriteStoryList(){
-        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), favoriteStoryList);
-        binding.recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.recyclerViewFavorites.setAdapter(storyAdapter);
-    }
-
-    private void setupDownloadedStoryList(){
-        StoryAdapter storyAdapter = new StoryAdapter(requireContext(), downloadedStoryList);
-        binding.recyclerViewDownloads.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.recyclerViewDownloads.setAdapter(storyAdapter);
-    }
-
     @Override
     public void onDestroyView(){
         super.onDestroyView();

@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".view.StoryDetailActivity" />
         <activity android:name=".view.ChapterReaderActivity"/>
+        <activity android:name=".view.ShowListActivity" />
+
 
     </application>
 

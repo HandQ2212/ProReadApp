@@ -10,7 +10,7 @@ import com.example.proreadapp.model.Story;
 import java.util.List;
 
 @Dao
-public interface StoryDao {
+public interface StoryDao{
     @Insert
     long insert(Story story);
 
