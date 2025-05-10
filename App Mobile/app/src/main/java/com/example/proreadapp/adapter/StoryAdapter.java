@@ -1,60 +1,76 @@
 package com.example.proreadapp.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proreadapp.databinding.ItemStoryBinding;
+import com.example.proreadapp.R;
 import com.example.proreadapp.model.Story;
-import com.example.proreadapp.view.StoryDetailActivity;
 
 import java.util.List;
 
-public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder>{
+public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHolder> {
+
     private final Context context;
     private final List<Story> storyList;
+    private final OnStoryClickListener listener;
 
-    public StoryAdapter(Context context, List<Story> storyList){
+    // Interface for click events
+    public interface OnStoryClickListener {
+        void onStoryClick(String storyId);
+    }
+
+    public StoryAdapter(Context context, List<Story> storyList, OnStoryClickListener listener) {
         this.context = context;
         this.storyList = storyList;
+        this.listener = listener;
     }
+
+    @NonNull
     @Override
-    public StoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        ItemStoryBinding binding = ItemStoryBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new StoryViewHolder(binding);
+    public StoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_story, parent, false);
+        return new StoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder( StoryViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull StoryViewHolder holder, int position) {
         Story story = storyList.get(position);
-        holder.binding.textTitle.setText(story.getTitle());
-        holder.binding.imageCover.setImageResource(story.getImageResId());
 
-        holder.binding.imageCover.setOnClickListener(v ->{
-            Intent intent = new Intent(context, StoryDetailActivity.class);
-            intent.putExtra("title", story.getTitle());
-            intent.putExtra("author", story.getAuthor());
-            intent.putExtra("info", story.getInfo());
-            intent.putExtra("description", story.getDescription());
-            intent.putExtra("imageResId", story.getImageResId());
-            context.startActivity(intent);
+        holder.textTitle.setText(story.getTitle());
+        holder.textAuthor.setText(story.getAuthor());
+        holder.textInfo.setText(story.getInfo());
+        holder.imageStory.setImageResource(story.getImageResId());
+
+        // Set click listener using story ID
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onStoryClick(story.getId());
+            }
         });
     }
 
     @Override
-    public int getItemCount(){
-        return storyList.size();
+    public int getItemCount() {
+        return storyList != null ? storyList.size() : 0;
     }
 
-    public static class StoryViewHolder extends RecyclerView.ViewHolder{
-        final ItemStoryBinding binding;
+    // ViewHolder class
+    public static class StoryViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageStory;
+        TextView textTitle, textAuthor, textInfo;
 
-        public StoryViewHolder(ItemStoryBinding binding){
-            super(binding.getRoot());
-            this.binding = binding;
+        public StoryViewHolder(@NonNull View itemView) {
+            super(itemView);
+            textTitle = itemView.findViewById(R.id.textTitle);
+            textAuthor = itemView.findViewById(R.id.textAuthor);
+            textInfo = itemView.findViewById(R.id.textInfo);
         }
     }
 }

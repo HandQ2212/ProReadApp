@@ -12,29 +12,46 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class StoryRepository{
-    private StoryDao storyDao;
-    private LiveData<List<Story>> allStories;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+public class StoryRepository {
+    private final StoryDao storyDao;
 
-    public StoryRepository(Application application){
+    public StoryRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         storyDao = database.storyDao();
-        allStories = storyDao.getAllStories();
     }
 
-    public void insert(Story story, InsertCallback callback){
-        executorService.execute(() ->{
-            long id = storyDao.insert(story);
-            callback.onInsert(id);
-        });
+    // Các phương thức lấy danh sách ID
+    public LiveData<List<String>> getNewestStoryIds() {
+        return storyDao.getNewestStoryIds();
     }
 
-    public LiveData<List<Story>> getAllStories(){
-        return allStories;
+    public LiveData<List<String>> getRecentlyUpdatedStoryIds() {
+        return storyDao.getRecentlyUpdatedStoryIds();
     }
 
-    public interface InsertCallback{
-        void onInsert(long id);
+    public LiveData<List<String>> getCompleteStoryIds() {
+        return storyDao.getCompleteStoryIds();
+    }
+
+    public LiveData<List<String>> getFavoriteStoryIds() {
+        return storyDao.getFavoriteStoryIds();
+    }
+
+    public LiveData<List<String>> getMostViewStoryIds() {
+        return storyDao.getMostViewStoryIds();
+    }
+
+    public LiveData<List<String>> getTrendingStoryIds() {
+        return storyDao.getTrendingStoryIds();
+    }
+
+    // Phương thức lấy story theo ID
+    public LiveData<Story> getStoryById(String storyId) {
+        return storyDao.getStoryById(storyId);
+    }
+
+    // Phương thức lấy nhiều story theo danh sách ID
+    public LiveData<List<Story>> getStoriesByIds(List<String> storyIds) {
+        return storyDao.getStoriesByIds(storyIds);
     }
 }

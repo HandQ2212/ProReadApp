@@ -20,92 +20,77 @@ import com.example.proreadapp.viewmodel.HomeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
-    private List<Story> favoriteStoryList;
-    private List<Story> mostViewStoryList;
-    private List<Story> trendingStoryList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
-        initData();
-        obseverData();
+        viewModel = new ViewModelProvider(this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(HomeViewModel.class);
 
-        binding.layoutFavorite.setOnClickListener(v ->{
-            navigateToShowListActivity("Yêu Thích", favoriteStoryList);
-        });
-        binding.layoutMostView.setOnClickListener(v ->{
-            navigateToShowListActivity("Xem Nhiều", mostViewStoryList);
-        });
-        binding.layoutTrending.setOnClickListener(v ->{
-            navigateToShowListActivity("Thịnh Hành", trendingStoryList);
-        });
+        observeData();
+        setupClickListeners();
 
         return binding.getRoot();
     }
 
-    private void navigateToShowListActivity(String title, List<Story> storyList){
-        List<String> storyIds = new ArrayList<>();
-        for (Story story : storyList){
-            storyIds.add(String.valueOf(story.getId()));
-        }
+    private void observeData() {
+        // Quan sát và hiển thị danh sách stories
+        viewModel.getNewestStories().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewNewest.setLayoutManager(
+                    new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewNewest.setAdapter(adapter);
+        });
 
+        viewModel.getRecentlyUpdatedStories().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewRecentlyUpdated.setLayoutManager(
+                    new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewRecentlyUpdated.setAdapter(adapter);
+        });
+
+        viewModel.getCompleteStories().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+            binding.recyclerViewComplete.setLayoutManager(
+                    new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewComplete.setAdapter(adapter);
+        });
+    }
+
+    private void setupClickListeners() {
+        binding.layoutFavorite.setOnClickListener(v -> {
+            viewModel.getFavoriteStoryIds().observe(getViewLifecycleOwner(), storyIds -> {
+                navigateToShowListActivity("Yêu Thích", storyIds);
+            });
+        });
+
+        binding.layoutMostView.setOnClickListener(v -> {
+            viewModel.getMostViewStoryIds().observe(getViewLifecycleOwner(), storyIds -> {
+                navigateToShowListActivity("Xem Nhiều", storyIds);
+            });
+        });
+
+        binding.layoutTrending.setOnClickListener(v -> {
+            viewModel.getTrendingStoryIds().observe(getViewLifecycleOwner(), storyIds -> {
+                navigateToShowListActivity("Thịnh Hành", storyIds);
+            });
+        });
+    }
+
+    private void navigateToShowListActivity(String title, List<String> storyIds) {
         Intent intent = new Intent(requireContext(), ShowListActivity.class);
         intent.putExtra("title", title);
         intent.putStringArrayListExtra("storyIds", new ArrayList<>(storyIds));
         startActivity(intent);
     }
 
-    private void initData(){
-        favoriteStoryList = new ArrayList<>();
-        Story s1 = new Story("Tiêu đề 1", "Tác giả", "Thông tin", "Mô tả", R.drawable.mucthanky1618392290);
-        s1.setId("101");
-        Story s2 = new Story("Tiêu đề 2", "Tác giả 2", "Thông tin 2", "Mô tả 2", R.drawable.mucthanky1618392290);
-        s2.setId("102");
-        favoriteStoryList.add(s1);
-        favoriteStoryList.add(s2);
-
-        mostViewStoryList = new ArrayList<>();
-        Story s3 = new Story("Tiêu đề 3", "Tác giả 3", "Thông tin 3", "Mô tả 3", R.drawable.mucthanky1618392290);
-        s3.setId("201");
-        Story s4 = new Story("Tiêu đề 4", "Tác giả 4", "Thông tin 4", "Mô tả 4", R.drawable.mucthanky1618392290);
-        s4.setId("202");
-        mostViewStoryList.add(s3);
-        mostViewStoryList.add(s4);
-
-        trendingStoryList = new ArrayList<>();
-        Story s5 = new Story("Tiêu đề 5", "Tác giả 5", "Thông tin 5", "Mô tả 5", R.drawable.mucthanky1618392290);
-        s5.setId("301");
-        Story s6 = new Story("Tiêu đề 6", "Tác giả 6", "Thông tin 6", "Mô tả 6", R.drawable.mucthanky1618392290);
-        s6.setId("302");
-        trendingStoryList.add(s5);
-        trendingStoryList.add(s6);
-    }
-
-    private void obseverData(){
-        viewModel.getNewestStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
-            binding.recyclerViewNewest.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewNewest.setAdapter(adapter);
-        });
-        viewModel.getRecentlyUpdatedStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
-            binding.recyclerViewRecentlyUpdated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewRecentlyUpdated.setAdapter(adapter);
-        });
-        viewModel.getCompleteStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
-            binding.recyclerViewComplete.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewComplete.setAdapter(adapter);
-        });
-    }
-
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
