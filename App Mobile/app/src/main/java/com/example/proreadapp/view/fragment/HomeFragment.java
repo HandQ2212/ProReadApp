@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,7 +34,7 @@ public class HomeFragment extends Fragment{
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         initData();
-        obseverData();
+        observerData();
 
         binding.layoutFavorite.setOnClickListener(v ->{
             navigateToShowListActivity("Yêu Thích", favoriteStoryList);
@@ -86,19 +87,36 @@ public class HomeFragment extends Fragment{
         trendingStoryList.add(s6);
     }
 
-    private void obseverData(){
-        viewModel.getNewestStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+    private void observerData() {
+        viewModel.getNewestStoryList().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
+                @Override
+                public void onStoryClick(String storyId) {
+                    Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
+                }
+            });
             binding.recyclerViewNewest.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerViewNewest.setAdapter(adapter);
         });
-        viewModel.getRecentlyUpdatedStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+
+        viewModel.getRecentlyUpdatedStoryList().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
+                @Override
+                public void onStoryClick(String storyId) {
+                    Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
+                }
+            });
             binding.recyclerViewRecentlyUpdated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerViewRecentlyUpdated.setAdapter(adapter);
         });
-        viewModel.getCompleteStoryList().observe(getViewLifecycleOwner(), stories ->{
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories);
+
+        viewModel.getCompleteStoryList().observe(getViewLifecycleOwner(), stories -> {
+            StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
+                @Override
+                public void onStoryClick(String storyId) {
+                    Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
+                }
+            });
             binding.recyclerViewComplete.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerViewComplete.setAdapter(adapter);
         });

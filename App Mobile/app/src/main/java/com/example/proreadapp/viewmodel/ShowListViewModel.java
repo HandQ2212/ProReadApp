@@ -52,7 +52,7 @@ public class ShowListViewModel extends AndroidViewModel {
             List<Story> stories = new ArrayList<>();
             try {
                 for (String id : storyIds) {
-                    Story story = repository.getStoryById(id).getValue();
+                    Story story = repository.getStoryById(id);
                     if (story != null) {
                         stories.add(story);
                     }
@@ -70,8 +70,6 @@ public class ShowListViewModel extends AndroidViewModel {
             }
         });
     }
-
-    // Legacy method to maintain compatibility
     public void setStoryList(List<Story> stories) {
         storyList.setValue(stories);
     }
@@ -88,7 +86,7 @@ public class ShowListViewModel extends AndroidViewModel {
     public void getStoryById(String storyId, StoryCallback callback) {
         executorService.execute(() -> {
             try {
-                Story story = repository.getStoryById(storyId).getValue();
+                Story story = repository.getStoryById(storyId);
                 callback.onResult(story);
             } catch (Exception e) {
                 callback.onError(e.getMessage());

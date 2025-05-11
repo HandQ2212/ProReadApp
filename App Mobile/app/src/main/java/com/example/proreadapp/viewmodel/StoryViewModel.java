@@ -17,17 +17,10 @@ public class StoryViewModel extends AndroidViewModel{
     private LiveData<List<Story>> allStories;
     private MutableLiveData<Long> lastInsertedId = new MutableLiveData<>();
 
-    public StoryViewModel(@NonNull Application application){
+    public StoryViewModel(@NonNull Application application) {
         super(application);
-        repository = new StoryRepository(application);
-        allStories = repository.getAllStories();
     }
 
-    public void insert(Story story){
-        repository.insert(story, id ->{
-            lastInsertedId.postValue(id);
-        });
-    }
 
     public LiveData<Long> getLastInsertedId(){
         return lastInsertedId;
