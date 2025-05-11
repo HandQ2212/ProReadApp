@@ -50,6 +50,7 @@ dependencies{
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.room.common.jvm)
     implementation(libs.room.runtime.android)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
