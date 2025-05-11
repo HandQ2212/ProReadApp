@@ -48,18 +48,18 @@ public class HomeViewModel extends ViewModel{
     }
     public void loadMockData(){
         List<Story> list1 = new ArrayList<>();
-        list1.add(new Story("Title 1", "Author 1", "...", "...", R.drawable.mucthanky1618392290));
-        list1.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky1618392290));
-        list1.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky1618392290));
-        list1.add(new Story("Title 4", "Author 4", "...", "...", R.drawable.mucthanky1618392290));
+        list1.add(new Story("Title 1", "Author 1", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("Title 4", "Author 4", "...", "...", R.drawable.mucthanky));
         newestStoryList.setValue(list1);
 
         List<Story> list2 = new ArrayList<>();
-        list2.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky1618392290));
+        list2.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
         recentlyUpdatedStoryList.setValue(list2);
 
         List<Story> list3 = new ArrayList<>();
-        list3.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky1618392290));
+        list3.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
         completeStoryList.setValue(list3);
     }
 

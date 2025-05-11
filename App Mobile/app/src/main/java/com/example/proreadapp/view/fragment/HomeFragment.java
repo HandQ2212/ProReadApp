@@ -62,25 +62,25 @@ public class HomeFragment extends Fragment{
 
     private void initData(){
         favoriteStoryList = new ArrayList<>();
-        Story s1 = new Story("Tiêu đề 1", "Tác giả", "Thông tin", "Mô tả", R.drawable.mucthanky1618392290);
+        Story s1 = new Story("Tiêu đề 1", "Tác giả", "Thông tin", "Mô tả", R.drawable.mucthanky);
         s1.setId("101");
-        Story s2 = new Story("Tiêu đề 2", "Tác giả 2", "Thông tin 2", "Mô tả 2", R.drawable.mucthanky1618392290);
+        Story s2 = new Story("Tiêu đề 2", "Tác giả 2", "Thông tin 2", "Mô tả 2", R.drawable.mucthanky);
         s2.setId("102");
         favoriteStoryList.add(s1);
         favoriteStoryList.add(s2);
 
         mostViewStoryList = new ArrayList<>();
-        Story s3 = new Story("Tiêu đề 3", "Tác giả 3", "Thông tin 3", "Mô tả 3", R.drawable.mucthanky1618392290);
+        Story s3 = new Story("Tiêu đề 3", "Tác giả 3", "Thông tin 3", "Mô tả 3", R.drawable.mucthanky);
         s3.setId("201");
-        Story s4 = new Story("Tiêu đề 4", "Tác giả 4", "Thông tin 4", "Mô tả 4", R.drawable.mucthanky1618392290);
+        Story s4 = new Story("Tiêu đề 4", "Tác giả 4", "Thông tin 4", "Mô tả 4", R.drawable.mucthanky);
         s4.setId("202");
         mostViewStoryList.add(s3);
         mostViewStoryList.add(s4);
 
         trendingStoryList = new ArrayList<>();
-        Story s5 = new Story("Tiêu đề 5", "Tác giả 5", "Thông tin 5", "Mô tả 5", R.drawable.mucthanky1618392290);
+        Story s5 = new Story("Tiêu đề 5", "Tác giả 5", "Thông tin 5", "Mô tả 5", R.drawable.mucthanky);
         s5.setId("301");
-        Story s6 = new Story("Tiêu đề 6", "Tác giả 6", "Thông tin 6", "Mô tả 6", R.drawable.mucthanky1618392290);
+        Story s6 = new Story("Tiêu đề 6", "Tác giả 6", "Thông tin 6", "Mô tả 6", R.drawable.mucthanky);
         s6.setId("302");
         trendingStoryList.add(s5);
         trendingStoryList.add(s6);
