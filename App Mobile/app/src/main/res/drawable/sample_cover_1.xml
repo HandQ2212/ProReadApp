@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="300dp"
+    android:viewportWidth="200"
+    android:viewportHeight="300">
+
+    <!-- Background gradient -->
+    <path
+        android:fillColor="#3F51B5"
+        android:pathData="M0,0h200v300h-200z" />
+
+    <!-- Overlay gradient for visual depth -->
+    <path
+        android:fillColor="#303F9F"
+        android:pathData="M0,150 L200,300 L0,300 Z" />
+
+    <!-- Book title area -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M20,100h160v80h-160z" />
+
+    <!-- Book title text - REMOVED, not compatible with Android vector drawables -->
+
+    <!-- Decorative elements -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,90h160v2h-160z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,190h160v2h-160z" />
+
+    <!-- Story icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,50m-15,0a15,15 0,1 1,30 0a15,15 0,1 1,-30 0" />
+
+    <!-- Publisher info - REMOVED, not compatible with Android vector drawables -->
+
+    <!-- Series indicator -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M20,20h40v20h-40z" />
+
+    <!-- Title lines representation -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,125h100v5h-100z" />
+    <path
+        android:fillColor="#E8EAF6"
+        android:pathData="M60,140h80v3h-80z" />
+
+    <!-- Author line representation -->
+    <path
+        android:fillColor="#C5CAE9"
+        android:pathData="M70,165h60v2h-60z" />
+</vector>

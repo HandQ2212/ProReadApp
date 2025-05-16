@@ -17,7 +17,7 @@
         android:layout_height="wrap_content" />
 
 
-    <NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/titleText"
@@ -238,5 +238,5 @@
                     android:scrollbars="none" />
             </LinearLayout>
         </LinearLayout>
-    </NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

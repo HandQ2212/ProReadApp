@@ -14,24 +14,27 @@ import com.example.proreadapp.R;
 import com.example.proreadapp.databinding.ActivityStoryDetailBinding;
 import com.example.proreadapp.viewmodel.StoryDetailViewModel;
 
-public class StoryDetailActivity extends AppCompatActivity{
+public class StoryDetailActivity extends AppCompatActivity {
 
     private ActivityStoryDetailBinding binding;
     private StoryDetailViewModel storyDetailViewModel;
-    String title, author, info, description;
+
+    private String id, title, author, info, description;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
-        getSupportActionBar().hide();
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.dark_gray));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 View decor = window.getDecorView();
-//                decor.setSystemUiVisibility(0); // Không cho icon đổi màu
             }
         }
 
@@ -42,45 +45,52 @@ public class StoryDetailActivity extends AppCompatActivity{
         setupReadButtonListener();
     }
 
-    private void setupViewBinding(){
+    private void setupViewBinding() {
         binding = ActivityStoryDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 
-    private void setupViewModel(){
+    private void setupViewModel() {
         storyDetailViewModel = new ViewModelProvider(this).get(StoryDetailViewModel.class);
     }
 
-    private void fetchIntentData(){
-        title = getIntent().getStringExtra("title");
-        author = getIntent().getStringExtra("author");
-        info = getIntent().getStringExtra("info");
-        description = getIntent().getStringExtra("description");
-        int imageResId = getIntent().getIntExtra("imageResId", -1);
+    private void fetchIntentData() {
+        Intent intent = getIntent();
 
-        storyDetailViewModel.setStoryData(title, author, info, description, imageResId);
+        id = intent.getStringExtra("id");  // Sửa: lấy id đầy đủ từ Intent
+        title = intent.getStringExtra("title");
+        author = intent.getStringExtra("author");
+        info = intent.getStringExtra("info");
+        description = intent.getStringExtra("description");
+        int imageResId = intent.getIntExtra("imageResId", -1);
+
+        storyDetailViewModel.setStoryData(id, title, author, info, description, imageResId);
     }
 
-    private void setupObservers(){
-        storyDetailViewModel.getStoryLiveData().observe(this, story ->{
-            if (story != null){
+    private void setupObservers() {
+        storyDetailViewModel.getStoryLiveData().observe(this, story -> {
+            if (story != null) {
                 binding.textTitle.setText(story.getTitle());
                 binding.textAuthor.setText(story.getAuthor());
                 binding.textInfo.setText(story.getInfo());
                 binding.textDescription.setText(story.getDescription());
-                if (story.getImageResId() != -1){
+                if (story.getImageResId() != -1) {
                     binding.imageCover.setImageResource(story.getImageResId());
+                } else {
+                    binding.imageCover.setImageResource(R.drawable.ic_image_placeholder);
                 }
             }
         });
     }
 
-    private void setupReadButtonListener(){
-        binding.btnRead.setOnClickListener(v ->{
-            Intent intent = new Intent(this, ChapterReaderActivity.class);
-            intent.putExtra("chapter_id", 1);
-            intent.putExtra("story_title", storyDetailViewModel.getStoryLiveData().getValue().getTitle());
-            startActivity(intent);
+    private void setupReadButtonListener() {
+        binding.btnRead.setOnClickListener(v -> {
+            if (storyDetailViewModel.getStoryLiveData().getValue() != null) {
+                Intent intent = new Intent(this, ChapterReaderActivity.class);
+                intent.putExtra("chapter_id", 1);
+                intent.putExtra("story_title", storyDetailViewModel.getStoryLiveData().getValue().getTitle());
+                startActivity(intent);
+            }
         });
     }
 }

@@ -8,7 +8,7 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/imageCover"
+        android:id="@+id/imageStory"
         android:layout_width="100dp"
         android:layout_height="140dp"
         android:scaleType="centerCrop"

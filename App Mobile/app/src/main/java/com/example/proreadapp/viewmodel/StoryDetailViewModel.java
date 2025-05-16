@@ -18,8 +18,8 @@ public class StoryDetailViewModel extends AndroidViewModel{
         return storyLiveData;
     }
 
-    public void setStoryData(String title, String author, String info, String description, int imageResId){
-        Story story = new Story(title, author, info, description, imageResId);
+    public void setStoryData(String id, String title, String author, String info, String description, int imageResId){
+        Story story = new Story(id, title, author, info, description, imageResId);
         storyLiveData.setValue(story);
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="36dp"
+    android:viewportWidth="24"
+    android:viewportHeight="36">
+
+    <!-- Simple red background -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M0,0h24v36h-24z" />
+
+    <!-- Simple title bar -->
+    <path
+        android:fillColor="#99000000"
+        android:pathData="M3,14h18v10h-18z" />
+
+    <!-- Decorative frame -->
+    <path
+        android:strokeColor="#FFCDD2"
+        android:strokeWidth="0.5"
+        android:pathData="M5,12h14v14h-14z" />
+
+    <!-- Title representation -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M6,17h12v1h-12z" />
+    <path
+        android:fillColor="#FFCDD2"
+        android:pathData="M8,19h8v0.5h-8z" />
+
+    <!-- Simple icon -->
+    <path
+        android:fillColor="#FFCDD2"
+        android:pathData="M12,8m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Book identifier -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M16,5h5v2h-5z" />
+</vector>

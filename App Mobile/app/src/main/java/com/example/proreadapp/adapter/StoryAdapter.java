@@ -21,7 +21,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     private final List<Story> storyList;
     private final OnStoryClickListener listener;
 
-    // Interface for click events
     public interface OnStoryClickListener {
         void onStoryClick(String storyId);
     }
@@ -44,11 +43,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         Story story = storyList.get(position);
 
         holder.textTitle.setText(story.getTitle());
-        holder.textAuthor.setText(story.getAuthor());
-        holder.textInfo.setText(story.getInfo());
         holder.imageStory.setImageResource(story.getImageResId());
 
-        // Set click listener using story ID
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onStoryClick(story.getId());
@@ -61,16 +57,14 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         return storyList != null ? storyList.size() : 0;
     }
 
-    // ViewHolder class
     public static class StoryViewHolder extends RecyclerView.ViewHolder {
         ImageView imageStory;
-        TextView textTitle, textAuthor, textInfo;
+        TextView textTitle;
 
         public StoryViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageStory = itemView.findViewById(R.id.imageStory);
             textTitle = itemView.findViewById(R.id.textTitle);
-            textAuthor = itemView.findViewById(R.id.textAuthor);
-            textInfo = itemView.findViewById(R.id.textInfo);
         }
     }
 }

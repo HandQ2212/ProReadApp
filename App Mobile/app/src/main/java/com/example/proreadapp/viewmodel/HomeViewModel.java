@@ -17,6 +17,8 @@ public class HomeViewModel extends ViewModel{
     private final MutableLiveData<List<Story>> recentlyUpdatedStoryList = new MutableLiveData<>();
     private final MutableLiveData<List<Story>> completeStoryList = new MutableLiveData<>();
 
+
+
     public void onFavoriteSectionClicked(List<Story> storyList){
         List<String> ids = new ArrayList<>();
         for (Story story : storyList){
@@ -48,18 +50,18 @@ public class HomeViewModel extends ViewModel{
     }
     public void loadMockData(){
         List<Story> list1 = new ArrayList<>();
-        list1.add(new Story("Title 1", "Author 1", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("Title 4", "Author 4", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("7", "Title 1", "Author 1", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("8","Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("9","Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
+        list1.add(new Story("10","Title 4", "Author 4", "...", "...", R.drawable.mucthanky));
         newestStoryList.setValue(list1);
 
         List<Story> list2 = new ArrayList<>();
-        list2.add(new Story("Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
+        list2.add(new Story("11","Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
         recentlyUpdatedStoryList.setValue(list2);
 
         List<Story> list3 = new ArrayList<>();
-        list3.add(new Story("Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
+        list3.add(new Story("12","Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
         completeStoryList.setValue(list3);
     }
 

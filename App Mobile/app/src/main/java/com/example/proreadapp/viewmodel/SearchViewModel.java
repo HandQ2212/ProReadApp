@@ -21,10 +21,6 @@ public class SearchViewModel extends ViewModel {
     public LiveData<List<SearchItem>> searchBooks(String query) {
         isLoading.setValue(true);
         LiveData<List<SearchItem>> searchResults = repository.searchBooks(query);
-
-        // Setting loading to false would typically be done when the search results are received
-        // For simplicity, we'll assume the repository handles this for now
-        // In a real application, you'd use a callback or observeForever to detect when data is loaded
         isLoading.setValue(false);
 
         return searchResults;
