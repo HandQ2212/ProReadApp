@@ -1,6 +1,7 @@
 package com.example.proreadapp.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public void onBindViewHolder(@NonNull StoryViewHolder holder, int position) {
         Story story = storyList.get(position);
-
+        holder.imageStory.setImageResource(R.drawable.ic_image_placeholder);
         holder.textTitle.setText(story.getTitle());
-        holder.imageStory.setImageResource(story.getImageResId());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

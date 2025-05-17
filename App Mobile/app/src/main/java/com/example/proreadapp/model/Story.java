@@ -17,6 +17,10 @@ public class Story {
     private String description;
     private int imageResId;
 
+    private long createdAt;
+    private long updatedAt;
+    private String status;
+
     // Constructor full (đã có id)
     public Story(@NonNull String id, String title, String author, String info, String description, int imageResId) {
         this.id = id;
@@ -56,5 +60,29 @@ public class Story {
 
     public int getImageResId() {
         return imageResId;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -6,86 +6,80 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.proreadapp.R;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.repository.StoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel{
-    private final MutableLiveData<List<String>> selectedStoryIds = new MutableLiveData<List<String>>();
+public class HomeViewModel extends ViewModel {
+    private final StoryRepository storyRepository;
+
+    private final LiveData<List<Story>> newestStoryList;
+    private final LiveData<List<Story>> recentlyUpdatedStoryList;
+    private final LiveData<List<Story>> completeStoryList;
+
+    private final MutableLiveData<List<String>> selectedStoryIds = new MutableLiveData<>();
     private final MutableLiveData<Boolean> navigateToShowList = new MutableLiveData<>();
-    private final MutableLiveData<List<Story>> newestStoryList = new MutableLiveData<>();
-    private final MutableLiveData<List<Story>> recentlyUpdatedStoryList = new MutableLiveData<>();
-    private final MutableLiveData<List<Story>> completeStoryList = new MutableLiveData<>();
 
+    public HomeViewModel(StoryRepository repository) {
+        this.storyRepository = repository;
 
+        newestStoryList = storyRepository.getNewestStories();
+        recentlyUpdatedStoryList = storyRepository.getRecentlyUpdatedStories();
+        completeStoryList = storyRepository.getCompleteStories();
+    }
 
-    public void onFavoriteSectionClicked(List<Story> storyList){
+    // Nếu dùng ViewModelProvider.Factory thì cần constructor có tham số StoryRepository
+
+    public LiveData<List<Story>> getNewestStoryList() {
+        return newestStoryList;
+    }
+
+    public LiveData<List<Story>> getRecentlyUpdatedStoryList() {
+        return recentlyUpdatedStoryList;
+    }
+
+    public LiveData<List<Story>> getCompleteStoryList() {
+        return completeStoryList;
+    }
+
+    public LiveData<List<String>> getSelectedStoryIds() {
+        return selectedStoryIds;
+    }
+
+    public LiveData<Boolean> getNavigateFlag() {
+        return navigateToShowList;
+    }
+
+    public void resetNavigation() {
+        navigateToShowList.setValue(false);
+    }
+
+    public void onFavoriteSectionClicked(List<Story> storyList) {
         List<String> ids = new ArrayList<>();
-        for (Story story : storyList){
+        for (Story story : storyList) {
             ids.add(story.getId());
         }
         selectedStoryIds.setValue(ids);
         navigateToShowList.setValue(true);
     }
 
-    public HomeViewModel(){
-        loadMockData();
-    }
-    public void onMostViewSectionClicked(List<Story> storyList){
+    public void onMostViewSectionClicked(List<Story> storyList) {
         List<String> ids = new ArrayList<>();
-        for (Story story : storyList){
-            ids.add(String.valueOf(story.getId()));
+        for (Story story : storyList) {
+            ids.add(story.getId());
         }
         selectedStoryIds.setValue(ids);
         navigateToShowList.setValue(true);
     }
 
-    public void onTrendingSectionClicked(List<Story> storyList){
+    public void onTrendingSectionClicked(List<Story> storyList) {
         List<String> ids = new ArrayList<>();
-        for (Story story : storyList){
-            ids.add(String.valueOf(story.getId()));
+        for (Story story : storyList) {
+            ids.add(story.getId());
         }
         selectedStoryIds.setValue(ids);
         navigateToShowList.setValue(true);
-    }
-    public void loadMockData(){
-        List<Story> list1 = new ArrayList<>();
-        list1.add(new Story("7", "Title 1", "Author 1", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("8","Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("9","Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
-        list1.add(new Story("10","Title 4", "Author 4", "...", "...", R.drawable.mucthanky));
-        newestStoryList.setValue(list1);
-
-        List<Story> list2 = new ArrayList<>();
-        list2.add(new Story("11","Title 2", "Author 2", "...", "...", R.drawable.mucthanky));
-        recentlyUpdatedStoryList.setValue(list2);
-
-        List<Story> list3 = new ArrayList<>();
-        list3.add(new Story("12","Title 3", "Author 3", "...", "...", R.drawable.mucthanky));
-        completeStoryList.setValue(list3);
-    }
-
-    public LiveData<List<Story>> getNewestStoryList(){
-        return newestStoryList;
-    }
-
-    public LiveData<List<Story>> getRecentlyUpdatedStoryList(){
-        return recentlyUpdatedStoryList;
-    }
-
-    public LiveData<List<Story>> getCompleteStoryList(){
-        return completeStoryList;
-    }
-
-    public LiveData<List<String>> getSelectedStoryIds(){
-        return selectedStoryIds;
-    }
-
-    public LiveData<Boolean> getNavigateFlag(){
-        return navigateToShowList;
-    }
-
-    public void resetNavigation(){
-        navigateToShowList.setValue(false);
     }
 }
+

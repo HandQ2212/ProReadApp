@@ -1,6 +1,7 @@
 package com.example.proreadapp.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,8 @@ public class StoryDetailActivity extends AppCompatActivity {
     private ActivityStoryDetailBinding binding;
     private StoryDetailViewModel storyDetailViewModel;
 
-    private String id, title, author, info, description;
+    private String id, title, author, info, description, imageUri;
+    private int imageResId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class StoryDetailActivity extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 View decor = window.getDecorView();
+                // Có thể chỉnh sửa UI flags nếu cần ở đây
             }
         }
 
@@ -57,12 +60,13 @@ public class StoryDetailActivity extends AppCompatActivity {
     private void fetchIntentData() {
         Intent intent = getIntent();
 
-        id = intent.getStringExtra("id");  // Sửa: lấy id đầy đủ từ Intent
+        id = intent.getStringExtra("id");
         title = intent.getStringExtra("title");
         author = intent.getStringExtra("author");
         info = intent.getStringExtra("info");
         description = intent.getStringExtra("description");
-        int imageResId = intent.getIntExtra("imageResId", -1);
+        imageUri = intent.getStringExtra("imageUri");
+        imageResId = intent.getIntExtra("imageResId", -1);
 
         storyDetailViewModel.setStoryData(id, title, author, info, description, imageResId);
     }
@@ -74,11 +78,8 @@ public class StoryDetailActivity extends AppCompatActivity {
                 binding.textAuthor.setText(story.getAuthor());
                 binding.textInfo.setText(story.getInfo());
                 binding.textDescription.setText(story.getDescription());
-                if (story.getImageResId() != -1) {
-                    binding.imageCover.setImageResource(story.getImageResId());
-                } else {
-                    binding.imageCover.setImageResource(R.drawable.ic_image_placeholder);
-                }
+                binding.imageCover.setImageResource(R.drawable.ic_image_placeholder);
+
             }
         });
     }

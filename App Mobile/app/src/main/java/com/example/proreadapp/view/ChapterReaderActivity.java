@@ -15,7 +15,7 @@ public class ChapterReaderActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doc_truyen_xml); // Layout bạn đã gửi trước
+        setContentView(R.layout.doc_truyen_xml);
 
         textTitle = findViewById(R.id.textChapterTitle);
         textContent = findViewById(R.id.textChapterContent);

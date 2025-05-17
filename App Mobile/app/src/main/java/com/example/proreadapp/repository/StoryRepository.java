@@ -62,4 +62,17 @@ public class StoryRepository {
     public LiveData<List<Chapter>> getChaptersByStoryId(int storyId) {
         return chapterDao.getChaptersByStoryId(storyId);
     }
+
+    public LiveData<List<Story>> getNewestStories() {
+        return storyDao.getNewestStories();
+    }
+
+    public LiveData<List<Story>> getRecentlyUpdatedStories() {
+        return storyDao.getRecentlyUpdatedStories();
+    }
+
+    public LiveData<List<Story>> getCompleteStories() {
+        return storyDao.getCompleteStories();
+    }
+
 }

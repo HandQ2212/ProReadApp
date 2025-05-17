@@ -32,6 +32,9 @@ public class ChapterAddEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_chapter_add_edit);
 
         initUI();
@@ -46,10 +49,8 @@ public class ChapterAddEditActivity extends AppCompatActivity {
                 chapterId = intent.getIntExtra(EXTRA_CHAPTER_ID, -1);
                 isEditMode = true;
                 loadChapterData();
-                getSupportActionBar().setTitle("Edit Chapter");
             } else {
                 isEditMode = false;
-                getSupportActionBar().setTitle("Add New Chapter");
 
                 int defaultTotalChapters = 1;
                 int defaultCurrentChapter = 1;

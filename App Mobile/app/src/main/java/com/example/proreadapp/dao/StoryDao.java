@@ -32,4 +32,13 @@ public interface StoryDao {
 
     @Query("SELECT * FROM stories WHERE title LIKE :searchQuery OR author LIKE :searchQuery")
     LiveData<List<Story>> searchStories(String searchQuery);
+
+    @Query("SELECT * FROM stories ORDER BY createdAt DESC")
+    LiveData<List<Story>> getNewestStories();
+
+    @Query("SELECT * FROM stories ORDER BY updatedAt DESC")
+    LiveData<List<Story>> getRecentlyUpdatedStories();
+
+    @Query("SELECT * FROM stories WHERE status = 'complete'")
+    LiveData<List<Story>> getCompleteStories();
 }

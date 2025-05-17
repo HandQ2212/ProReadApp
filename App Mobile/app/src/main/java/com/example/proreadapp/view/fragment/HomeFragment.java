@@ -1,5 +1,6 @@
 package com.example.proreadapp.view.fragment;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +16,13 @@ import com.example.proreadapp.R;
 import com.example.proreadapp.adapter.StoryAdapter;
 import com.example.proreadapp.databinding.FragmentHomeBinding;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.repository.StoryRepository;
 import com.example.proreadapp.view.ShowListActivity;
 import com.example.proreadapp.viewmodel.HomeViewModel;
+import com.example.proreadapp.viewmodel.HomeViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment{
@@ -31,9 +35,13 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        Application application = requireActivity().getApplication();
+        StoryRepository repository = new StoryRepository(application);
+        HomeViewModelFactory factory = new HomeViewModelFactory(repository);
+        viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
 
-        initData();
+
+//        initData();
         observerData();
 
         binding.layoutFavorite.setOnClickListener(v ->{
@@ -61,34 +69,13 @@ public class HomeFragment extends Fragment{
         startActivity(intent);
     }
 
-    private void initData(){
-        favoriteStoryList = new ArrayList<>();
-        Story s1 = new Story("1", "Tiêu đề 1", "Tác giả", "Thông tin", "Mô tả", R.drawable.mucthanky);
-        s1.setId("101");
-        Story s2 = new Story("2", "Tiêu đề 2", "Tác giả 2", "Thông tin 2", "Mô tả 2", R.drawable.mucthanky);
-        s2.setId("102");
-        favoriteStoryList.add(s1);
-        favoriteStoryList.add(s2);
-
-        mostViewStoryList = new ArrayList<>();
-        Story s3 = new Story("3", "Tiêu đề 3", "Tác giả 3", "Thông tin 3", "Mô tả 3", R.drawable.mucthanky);
-        s3.setId("201");
-        Story s4 = new Story("4", "Tiêu đề 4", "Tác giả 4", "Thông tin 4", "Mô tả 4", R.drawable.mucthanky);
-        s4.setId("202");
-        mostViewStoryList.add(s3);
-        mostViewStoryList.add(s4);
-
-        trendingStoryList = new ArrayList<>();
-        Story s5 = new Story("5","Tiêu đề 5", "Tác giả 5", "Thông tin 5", "Mô tả 5", R.drawable.mucthanky);
-        s5.setId("301");
-        Story s6 = new Story("6", "Tiêu đề 6", "Tác giả 6", "Thông tin 6", "Mô tả 6", R.drawable.mucthanky);
-        s6.setId("302");
-        trendingStoryList.add(s5);
-        trendingStoryList.add(s6);
-    }
-
     private void observerData() {
         viewModel.getNewestStoryList().observe(getViewLifecycleOwner(), stories -> {
+            if(stories != null){
+                List<Story> reversed = new ArrayList<>(stories);
+                Collections.reverse(reversed);
+                stories = reversed;
+            }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
                 public void onStoryClick(String storyId) {
@@ -100,6 +87,11 @@ public class HomeFragment extends Fragment{
         });
 
         viewModel.getRecentlyUpdatedStoryList().observe(getViewLifecycleOwner(), stories -> {
+            if(stories != null){
+                List<Story> reversed = new ArrayList<>(stories);
+                Collections.reverse(reversed);
+                stories = reversed;
+            }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
                 public void onStoryClick(String storyId) {
@@ -111,6 +103,11 @@ public class HomeFragment extends Fragment{
         });
 
         viewModel.getCompleteStoryList().observe(getViewLifecycleOwner(), stories -> {
+            if(stories != null){
+                List<Story> reversed = new ArrayList<>(stories);
+                Collections.reverse(reversed);
+                stories = reversed;
+            }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
                 public void onStoryClick(String storyId) {

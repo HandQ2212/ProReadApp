@@ -72,11 +72,10 @@ public class StoryAddEditActivity extends AppCompatActivity {
             editInfo.setText(story.getInfo());
             editDescription.setText(story.getDescription());
 
-            // Nếu lưu ảnh bằng Uri (string) thì bạn cần convert tương ứng
-            // Ở đây giả sử imageResId, bạn có thể cần sửa nếu dùng Uri thật.
-            imageStoryCover.setImageResource(story.getImageResId());
+            imageStoryCover.setImageResource(R.drawable.ic_image_placeholder);
         }
     }
+
 
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -107,9 +106,11 @@ public class StoryAddEditActivity extends AppCompatActivity {
             return;
         }
 
-        int imageResId = R.drawable.ic_image_placeholder;
+        String imageUriString = selectedImageUri != null ? selectedImageUri.toString() : null;
+        int defaultImageResId = R.drawable.ic_image_placeholder; // hoặc giá trị mặc định phù hợp
 
-        Story story = new Story(storyId, title, author, info, description, imageResId);
+        // Tạo đối tượng Story với constructor full
+        Story story = new Story(storyId, title, author, info, description, defaultImageResId);
 
         storyViewModel.insertStory(story);
 
@@ -125,4 +126,7 @@ public class StoryAddEditActivity extends AppCompatActivity {
 
         finish();
     }
+
+
+
 }
