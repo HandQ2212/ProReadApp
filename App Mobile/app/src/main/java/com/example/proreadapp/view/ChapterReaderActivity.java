@@ -1,32 +1,34 @@
 package com.example.proreadapp.view;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.proreadapp.R;
+import com.example.proreadapp.databinding.DocTruyenXmlBinding;
+import com.example.proreadapp.viewmodel.ChapterViewModel;
 
-public class ChapterReaderActivity extends AppCompatActivity{
+public class ChapterReaderActivity extends AppCompatActivity {
 
-    private TextView textTitle, textContent;
+    private DocTruyenXmlBinding binding;
+    private ChapterViewModel chapterViewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
-        getSupportActionBar().hide();
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doc_truyen_xml);
+        getSupportActionBar().hide();
+        binding = DocTruyenXmlBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        textTitle = findViewById(R.id.textChapterTitle);
-        textContent = findViewById(R.id.textChapterContent);
+        int chapterId = getIntent().getIntExtra("chapter_id", -1);
 
-        // Lấy dữ liệu từ Intent
-        int chapterId = getIntent().getIntExtra("chapter_id", 1);
-        String storyTitle = getIntent().getStringExtra("story_title");
+        chapterViewModel = new ViewModelProvider(this).get(ChapterViewModel.class);
 
-        // Gán tiêu đề chương (tạm thời, sau có thể lấy từ server)
-        textTitle.setText("Chương " + chapterId + ": Tiêu đề chương mẫu");
-        textContent.setText("Đây là nội dung của chương " + chapterId + " thuộc truyện " + storyTitle + "abcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmnoabcdefghiklmno");
+        chapterViewModel.getChapterById(chapterId).observe(this, chapter -> {
+            if (chapter != null) {
+                binding.textChapterTitle.setText(chapter.getTitle());
+                binding.textChapterContent.setText(chapter.getContent());
+            }
+        });
     }
 }
-

@@ -99,7 +99,9 @@ public class HomeFragment extends Fragment{
             }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
-                public void onStoryClick(String storyId) {
+                public void onStoryClick(String storyId) {Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+                    intent.putExtra("storyId", storyId);
+                    startActivity(intent);
                     Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -115,7 +117,9 @@ public class HomeFragment extends Fragment{
             }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
-                public void onStoryClick(String storyId) {
+                public void onStoryClick(String storyId) {Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+                    intent.putExtra("storyId", storyId);
+                    startActivity(intent);
                     Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
                 }
             });

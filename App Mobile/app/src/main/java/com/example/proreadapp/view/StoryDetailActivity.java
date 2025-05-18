@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.proreadapp.R;
 import com.example.proreadapp.databinding.ActivityStoryDetailBinding;
+import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.viewmodel.StoryDetailViewModel;
 
 public class StoryDetailActivity extends AppCompatActivity {
@@ -34,7 +35,7 @@ public class StoryDetailActivity extends AppCompatActivity {
 
         String storyIdStr = getIntent().getStringExtra("storyId");
         if (storyIdStr != null) {
-            storyDetailViewModel.loadStoryById(storyIdStr); // Không parseInt nữa
+            storyDetailViewModel.loadStoryById(storyIdStr);
         }
 
         storyDetailViewModel.getStoryLiveData().observe(this, story -> {
@@ -60,6 +61,22 @@ public class StoryDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        storyDetailViewModel.getChaptersByStoryId(storyIdStr).observe(this, chapters -> {
+            if (chapters != null && !chapters.isEmpty()) {
+                Chapter firstChapter = chapters.get(0);
+
+                binding.btnRead.setOnClickListener(v -> {
+                    Intent intent = new Intent(this, ChapterReaderActivity.class);
+                    intent.putExtra("chapter_id", firstChapter.getId());
+                    intent.putExtra("story_title", storyDetailViewModel.getStoryLiveData().getValue().getTitle());
+                    startActivity(intent);
+                });
+            } else {
+                binding.btnRead.setEnabled(false);
+            }
+        });
+
     }
 
 }

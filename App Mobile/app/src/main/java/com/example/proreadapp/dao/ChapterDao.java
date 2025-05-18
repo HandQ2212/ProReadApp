@@ -17,4 +17,8 @@ public interface ChapterDao{
     @Query("SELECT * FROM chapters WHERE storyId = :storyId")
     LiveData<List<Chapter>> getChaptersByStoryId(String storyId);
 
+    @Query("SELECT * FROM chapters WHERE id = :chapterId")
+    LiveData<Chapter> getChapterById(int chapterId);
+
+
 }
