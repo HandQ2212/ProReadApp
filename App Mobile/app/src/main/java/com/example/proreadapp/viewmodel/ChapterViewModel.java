@@ -29,7 +29,7 @@ public class ChapterViewModel extends ViewModel{
                 "Chương " + chapterId + ": Máu Tử Linh",
                 content,
                 chapterId,
-                1349, 1
+                1349, "1"
         );
         chapterLiveData.setValue(chapter);
     }

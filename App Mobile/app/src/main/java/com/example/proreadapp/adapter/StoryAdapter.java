@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proreadapp.R;
 import com.example.proreadapp.model.Story;
 
@@ -42,7 +43,18 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public void onBindViewHolder(@NonNull StoryViewHolder holder, int position) {
         Story story = storyList.get(position);
-        holder.imageStory.setImageResource(R.drawable.ic_image_placeholder);
+
+        String imageUriString = story.getImageUri();
+        if (imageUriString != null && !imageUriString.isEmpty()) {
+            Glide.with(context)
+                    .load(imageUriString)
+                    .placeholder(R.drawable.ic_image_placeholder)
+                    .error(R.drawable.ic_image_placeholder)
+                    .into(holder.imageStory);
+        } else {
+            holder.imageStory.setImageResource(R.drawable.ic_image_placeholder);
+        }
+
         holder.textTitle.setText(story.getTitle());
 
         holder.itemView.setOnClickListener(v -> {

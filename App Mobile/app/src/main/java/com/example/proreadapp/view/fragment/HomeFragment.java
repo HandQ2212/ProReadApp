@@ -3,6 +3,7 @@ package com.example.proreadapp.view.fragment;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.proreadapp.databinding.FragmentHomeBinding;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.repository.StoryRepository;
 import com.example.proreadapp.view.ShowListActivity;
+import com.example.proreadapp.view.StoryDetailActivity;
 import com.example.proreadapp.viewmodel.HomeViewModel;
 import com.example.proreadapp.viewmodel.HomeViewModelFactory;
 
@@ -40,8 +42,6 @@ public class HomeFragment extends Fragment{
         HomeViewModelFactory factory = new HomeViewModelFactory(repository);
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
 
-
-//        initData();
         observerData();
 
         binding.layoutFavorite.setOnClickListener(v ->{
@@ -71,6 +71,9 @@ public class HomeFragment extends Fragment{
 
     private void observerData() {
         viewModel.getNewestStoryList().observe(getViewLifecycleOwner(), stories -> {
+            for (Story story : stories) {
+                Log.d("RoomCheck", "Title: " + story.getTitle() + ", Image URL: " + story.getImageUri());
+            }
             if(stories != null){
                 List<Story> reversed = new ArrayList<>(stories);
                 Collections.reverse(reversed);
@@ -78,7 +81,9 @@ public class HomeFragment extends Fragment{
             }
             StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
                 @Override
-                public void onStoryClick(String storyId) {
+                public void onStoryClick(String storyId) {Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+                    intent.putExtra("storyId", storyId);
+                    startActivity(intent);
                     Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
                 }
             });

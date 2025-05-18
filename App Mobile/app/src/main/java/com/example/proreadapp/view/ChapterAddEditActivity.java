@@ -26,7 +26,7 @@ public class ChapterAddEditActivity extends AppCompatActivity {
     private Button btnSaveChapter;
 
     private int chapterId = -1;
-    private int storyId;
+    private String storyId;
     private boolean isEditMode = false;
 
     @Override
@@ -43,7 +43,7 @@ public class ChapterAddEditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            storyId = intent.getIntExtra(EXTRA_STORY_ID, -1);
+            storyId = intent.getStringExtra(EXTRA_STORY_ID);
 
             if (intent.hasExtra(EXTRA_CHAPTER_ID)) {
                 chapterId = intent.getIntExtra(EXTRA_CHAPTER_ID, -1);

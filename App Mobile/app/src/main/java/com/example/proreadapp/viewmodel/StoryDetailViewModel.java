@@ -4,23 +4,28 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.proreadapp.model.Story;
+import androidx.lifecycle.ViewModel;
 
-public class StoryDetailViewModel extends AndroidViewModel{
+import com.example.proreadapp.model.Story;
+import com.example.proreadapp.repository.StoryRepository;
+public class StoryDetailViewModel extends AndroidViewModel {
+    private final StoryRepository repository;
     private final MutableLiveData<Story> storyLiveData = new MutableLiveData<>();
 
-    public StoryDetailViewModel(@NonNull Application application){
+    public StoryDetailViewModel(@NonNull Application application) {
         super(application);
+        repository = new StoryRepository(application);
     }
 
-    public MutableLiveData<Story> getStoryLiveData(){
+    public void loadStoryById(String id) {
+        repository.getStoryById(id).observeForever(story -> {
+            storyLiveData.setValue(story);
+        });
+    }
+
+    public LiveData<Story> getStoryLiveData() {
         return storyLiveData;
     }
-
-    public void setStoryData(String id, String title, String author, String info, String description, int imageResId) {
-        Story story = new Story(id, title, author, info, description, imageResId);
-        storyLiveData.setValue(story);
-    }
-
 }

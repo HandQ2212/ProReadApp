@@ -18,11 +18,9 @@ import com.example.proreadapp.model.Story;
 public abstract class AppDatabase extends RoomDatabase{
     private static AppDatabase instance;
 
-    // Liên kết DAO
     public abstract StoryDao storyDao();
     public abstract ChapterDao chapterDao();
 
-    // Singleton để đảm bảo chỉ có một instance của cơ sở dữ liệu
     public static synchronized AppDatabase getInstance(Context context){
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),

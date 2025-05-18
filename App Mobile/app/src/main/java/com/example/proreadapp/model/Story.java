@@ -16,22 +16,22 @@ public class Story {
     private String info;
     private String description;
     private int imageResId;
+    private String imageUri;
 
     private long createdAt;
     private long updatedAt;
     private String status;
 
-    // Constructor full (đã có id)
-    public Story(@NonNull String id, String title, String author, String info, String description, int imageResId) {
+    public Story(@NonNull String id, String title, String author, String info, String description, int imageResId, String imageUri) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.info = info;
         this.description = description;
         this.imageResId = imageResId;
+        this.imageUri = imageUri;
     }
 
-    // Getters & setters
 
     @NonNull
     public String getId() {
@@ -84,5 +84,13 @@ public class Story {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }

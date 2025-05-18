@@ -25,7 +25,7 @@ public class ChapterRepository{
         executorService.execute(() -> chapterDao.insert(chapter));
     }
 
-    public LiveData<List<Chapter>> getChaptersByStoryId(int storyId){
+    public LiveData<List<Chapter>> getChaptersByStoryId(String storyId){
         return chapterDao.getChaptersByStoryId(storyId);
     }
 }

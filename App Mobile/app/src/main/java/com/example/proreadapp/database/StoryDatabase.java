@@ -3,11 +3,13 @@ package com.example.proreadapp.database;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.dao.StoryDao;
@@ -21,10 +23,9 @@ public abstract class StoryDatabase extends RoomDatabase {
     public abstract StoryDao storyDao();
     public abstract ChapterDao chapterDao();
 
-    // Định nghĩa migration từ version 1 lên 2
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
-        public void migrate(SupportSQLiteDatabase database) {
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
             Log.d("Migration", "Running migration from 1 to 2");
             database.execSQL("ALTER TABLE stories ADD COLUMN createdAt INTEGER NOT NULL DEFAULT 0");
             database.execSQL("ALTER TABLE stories ADD COLUMN updatedAt INTEGER NOT NULL DEFAULT 0");

@@ -20,71 +20,38 @@ public class StoryDetailActivity extends AppCompatActivity {
     private ActivityStoryDetailBinding binding;
     private StoryDetailViewModel storyDetailViewModel;
 
-    private String id, title, author, info, description, imageUri;
-    private int imageResId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityStoryDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.dark_gray));
+        storyDetailViewModel = new ViewModelProvider(this).get(StoryDetailViewModel.class);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                View decor = window.getDecorView();
-                // Có thể chỉnh sửa UI flags nếu cần ở đây
-            }
+        String storyIdStr = getIntent().getStringExtra("storyId");
+        if (storyIdStr != null) {
+            storyDetailViewModel.loadStoryById(storyIdStr); // Không parseInt nữa
         }
 
-        setupViewBinding();
-        setupViewModel();
-        fetchIntentData();
-        setupObservers();
-        setupReadButtonListener();
-    }
-
-    private void setupViewBinding() {
-        binding = ActivityStoryDetailBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-    }
-
-    private void setupViewModel() {
-        storyDetailViewModel = new ViewModelProvider(this).get(StoryDetailViewModel.class);
-    }
-
-    private void fetchIntentData() {
-        Intent intent = getIntent();
-
-        id = intent.getStringExtra("id");
-        title = intent.getStringExtra("title");
-        author = intent.getStringExtra("author");
-        info = intent.getStringExtra("info");
-        description = intent.getStringExtra("description");
-        imageUri = intent.getStringExtra("imageUri");
-        imageResId = intent.getIntExtra("imageResId", -1);
-
-        storyDetailViewModel.setStoryData(id, title, author, info, description, imageResId);
-    }
-
-    private void setupObservers() {
         storyDetailViewModel.getStoryLiveData().observe(this, story -> {
             if (story != null) {
                 binding.textTitle.setText(story.getTitle());
                 binding.textAuthor.setText(story.getAuthor());
                 binding.textInfo.setText(story.getInfo());
                 binding.textDescription.setText(story.getDescription());
-                binding.imageCover.setImageResource(R.drawable.ic_image_placeholder);
 
+                if (story.getImageUri() != null) {
+                    binding.imageCover.setImageURI(Uri.parse(story.getImageUri()));
+                } else {
+                    binding.imageCover.setImageResource(R.drawable.ic_image_placeholder);
+                }
             }
         });
-    }
 
-    private void setupReadButtonListener() {
         binding.btnRead.setOnClickListener(v -> {
             if (storyDetailViewModel.getStoryLiveData().getValue() != null) {
                 Intent intent = new Intent(this, ChapterReaderActivity.class);
@@ -94,4 +61,6 @@ public class StoryDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 }
+

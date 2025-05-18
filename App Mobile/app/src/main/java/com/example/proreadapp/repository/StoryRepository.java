@@ -38,13 +38,8 @@ public class StoryRepository {
         executorService.execute(() -> storyDao.delete(story));
     }
 
-    public Story getStoryById(String storyId) {
-        try {
-            return executorService.submit(() -> storyDao.getStoryById(storyId)).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public LiveData<Story> getStoryById(String storyId) {
+        return storyDao.getStoryById(storyId);
     }
 
     public LiveData<List<Story>> getAllStories() {
@@ -59,7 +54,7 @@ public class StoryRepository {
         executorService.execute(() -> chapterDao.insert(chapter));
     }
 
-    public LiveData<List<Chapter>> getChaptersByStoryId(int storyId) {
+    public LiveData<List<Chapter>> getChaptersByStoryId(String storyId) {
         return chapterDao.getChaptersByStoryId(storyId);
     }
 
@@ -74,5 +69,4 @@ public class StoryRepository {
     public LiveData<List<Story>> getCompleteStories() {
         return storyDao.getCompleteStories();
     }
-
 }

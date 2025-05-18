@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -14,8 +13,7 @@ import java.util.List;
 
 @Dao
 public interface StoryDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(Story story);
 
     @Update
@@ -24,14 +22,20 @@ public interface StoryDao {
     @Delete
     void delete(Story story);
 
-    @Query("SELECT * FROM stories WHERE id = :storyId")
-    Story getStoryById(String storyId);
+    @Query("UPDATE stories SET title = :title, author = :author WHERE id = :id")
+    void updateById(String id, String title, String author);
+
+    @Query("DELETE FROM stories WHERE id = :id")
+    void deleteById(String id);
+
+    @Query("SELECT * FROM stories WHERE id = :id")
+    LiveData<Story> getStoryById(String id);
 
     @Query("SELECT * FROM stories")
     LiveData<List<Story>> getAllStories();
 
-    @Query("SELECT * FROM stories WHERE title LIKE :searchQuery OR author LIKE :searchQuery")
-    LiveData<List<Story>> searchStories(String searchQuery);
+    @Query("SELECT * FROM stories WHERE title LIKE :query")
+    LiveData<List<Story>> searchStories(String query);
 
     @Query("SELECT * FROM stories ORDER BY createdAt DESC")
     LiveData<List<Story>> getNewestStories();

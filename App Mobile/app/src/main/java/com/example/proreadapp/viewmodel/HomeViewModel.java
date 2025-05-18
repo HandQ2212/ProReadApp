@@ -29,7 +29,6 @@ public class HomeViewModel extends ViewModel {
         completeStoryList = storyRepository.getCompleteStories();
     }
 
-    // Nếu dùng ViewModelProvider.Factory thì cần constructor có tham số StoryRepository
 
     public LiveData<List<Story>> getNewestStoryList() {
         return newestStoryList;

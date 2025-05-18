@@ -8,10 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
-import com.example.proreadapp.database.StoryDatabase;
-import com.example.proreadapp.repository.StoryRepository;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.repository.StoryRepository;
+import com.example.proreadapp.view.StoryDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,75 +27,61 @@ public class ShowListViewModel extends AndroidViewModel {
 
     public ShowListViewModel(@NonNull Application application) {
         super(application);
-        StoryDatabase database = StoryDatabase.getInstance(application);
-        repository = new StoryRepository((Application) database.storyDao());
+        repository = new StoryRepository(application);
     }
 
-    // Getter for story list LiveData
     public LiveData<List<Story>> getStoryList() {
         return storyList;
     }
 
-    // Getter for error message LiveData
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
-    // Setter for story IDs and trigger load
     public void setStoryIds(List<String> storyIds) {
         if (storyIds == null || storyIds.isEmpty()) {
             errorMessage.setValue("Không có ID truyện để tải");
             return;
         }
 
-        // Tải danh sách Story từ Room Database bằng IDs
-        executorService.execute(() -> {
-            List<Story> stories = new ArrayList<>();
-            try {
-                for (String id : storyIds) {
-                    Story story = repository.getStoryById(id);
+        List<Story> loadedStories = new ArrayList<>();
+        List<String> remainingIds = new ArrayList<>(storyIds);
+
+        for (String id : storyIds) {
+            LiveData<Story> liveData = repository.getStoryById(id);
+            liveData.observeForever(new Observer<Story>() {
+                @Override
+                public void onChanged(Story story) {
                     if (story != null) {
-                        stories.add(story);
+                        loadedStories.add(story);
+                    }
+
+                    liveData.removeObserver(this);
+                    remainingIds.remove(id);
+
+                    if (remainingIds.isEmpty()) {
+                        if (loadedStories.isEmpty()) {
+                            errorMessage.postValue("Không tìm thấy truyện nào");
+                        } else {
+                            storyList.postValue(loadedStories);
+                        }
                     }
                 }
-
-                // Cập nhật UI trên main thread
-                MutableLiveData<List<Story>> finalStoryList = storyList;
-                if (stories.isEmpty()) {
-                    errorMessage.postValue("Không tìm thấy truyện nào từ các ID đã cung cấp");
-                } else {
-                    finalStoryList.postValue(stories);
-                }
-            } catch (Exception e) {
-                errorMessage.postValue("Lỗi khi tải dữ liệu: " + e.getMessage());
-            }
-        });
+            });
+        }
     }
+
+
     public void setStoryList(List<Story> stories) {
         storyList.setValue(stories);
     }
 
-    // Handle click on a story by ID
     public void onStoryClicked(Context context, String storyId) {
-        // Launch StoryDetailActivity with just the ID
-        Intent intent = new Intent(context, com.example.proreadapp.view.StoryDetailActivity.class);
+        Intent intent = new Intent(context, StoryDetailActivity.class);
         intent.putExtra("storyId", storyId);
         context.startActivity(intent);
     }
 
-    // Method to get a story by ID from Room directly
-    public void getStoryById(String storyId, StoryCallback callback) {
-        executorService.execute(() -> {
-            try {
-                Story story = repository.getStoryById(storyId);
-                callback.onResult(story);
-            } catch (Exception e) {
-                callback.onError(e.getMessage());
-            }
-        });
-    }
-
-    // Callback interface for async story operations
     public interface StoryCallback {
         void onResult(Story story);
         void onError(String message);

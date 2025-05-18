@@ -22,7 +22,6 @@ public class StoryViewModel extends AndroidViewModel {
         allStories = repository.getAllStories();
     }
 
-    // Story operations
     public void insertStory(Story story) {
         repository.insertStory(story);
     }
@@ -35,7 +34,7 @@ public class StoryViewModel extends AndroidViewModel {
         repository.deleteStory(story);
     }
 
-    public Story getStoryById(String storyId) {
+    public LiveData<Story> getStoryById(String storyId) {
         return repository.getStoryById(storyId);
     }
 
@@ -47,12 +46,11 @@ public class StoryViewModel extends AndroidViewModel {
         return repository.searchStories("%" + query + "%");
     }
 
-    // Chapter operations
     public void insertChapter(Chapter chapter) {
         repository.insertChapter(chapter);
     }
 
-    public LiveData<List<Chapter>> getChaptersByStoryId(int storyId) {
+    public LiveData<List<Chapter>> getChaptersByStoryId(String storyId) {
         return repository.getChaptersByStoryId(storyId);
     }
 }
