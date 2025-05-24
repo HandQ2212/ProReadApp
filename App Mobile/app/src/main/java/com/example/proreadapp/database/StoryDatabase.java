@@ -10,18 +10,25 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.dao.StoryDao;
 import com.example.proreadapp.dao.ChapterDao;
+import com.example.proreadapp.dao.CategoryDao;
+import com.example.proreadapp.dao.StoryCategoryDao;
 
-@Database(entities = {Story.class, Chapter.class}, version = 2, exportSchema = false)
+import com.example.proreadapp.model.StoryCategoryCrossRef;
+
+@Database(entities = {Story.class, Chapter.class, Category.class, StoryCategoryCrossRef.class}, version = 3, exportSchema = false)
 public abstract class StoryDatabase extends RoomDatabase {
 
     private static StoryDatabase instance;
 
     public abstract StoryDao storyDao();
     public abstract ChapterDao chapterDao();
+    public abstract CategoryDao categoryDao();
+    public abstract StoryCategoryDao storyCategoryDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
@@ -33,6 +40,29 @@ public abstract class StoryDatabase extends RoomDatabase {
         }
     };
 
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Log.d("Migration", "Running migration from 2 to 3");
+            database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS categories (" +
+                            "id TEXT NOT NULL PRIMARY KEY, " +
+                            "name TEXT NOT NULL)"
+            );
+            database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS story_category_cross_ref (" +
+                            "storyId TEXT NOT NULL, " +
+                            "categoryId TEXT NOT NULL, " +
+                            "PRIMARY KEY(storyId, categoryId), " +
+                            "FOREIGN KEY(storyId) REFERENCES stories(id) ON DELETE CASCADE, " +
+                            "FOREIGN KEY(categoryId) REFERENCES categories(id) ON DELETE CASCADE)"
+            );
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_story_category_cross_ref_storyId ON story_category_cross_ref(storyId)");
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_story_category_cross_ref_categoryId ON story_category_cross_ref(categoryId)");
+        }
+    };
+
+
     public static synchronized StoryDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(
@@ -40,6 +70,7 @@ public abstract class StoryDatabase extends RoomDatabase {
                             StoryDatabase.class,
                             "story_database")
                     .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_2_3)
                     .build();
         }
         return instance;
