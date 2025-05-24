@@ -10,6 +10,7 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.proreadapp.model.Category;
+import com.example.proreadapp.model.CategoryWithStories;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.model.StoryCategoryCrossRef;
 
@@ -76,4 +77,8 @@ public interface StoryDao {
             insertStoryCategoryCrossRef(new StoryCategoryCrossRef(story.getId(), category.getId()));
         }
     }
+    @Transaction
+    @Query("SELECT * FROM categories WHERE id = :categoryId")
+    LiveData<CategoryWithStories> getStoriesByCategoryId(String categoryId);
+
 }

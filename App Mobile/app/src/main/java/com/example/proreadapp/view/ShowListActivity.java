@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.proreadapp.adapter.StoryAdapter;
 import com.example.proreadapp.databinding.ActivityShowListBinding;
-import com.example.proreadapp.model.Story;
 import com.example.proreadapp.viewmodel.ShowListViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
-
+import androidx.recyclerview.widget.GridLayoutManager;
 public class ShowListActivity extends AppCompatActivity {
     private ActivityShowListBinding binding;
     private ShowListViewModel viewModel;
@@ -31,32 +29,36 @@ public class ShowListActivity extends AppCompatActivity {
         binding = ActivityShowListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Set up RecyclerView with LinearLayoutManager
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));        viewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
 
-        // Initialize ViewModel
-        viewModel = new ViewModelProvider(this).get(ShowListViewModel.class);
-
-        // Get data from intent
+        String categoryId = getIntent().getStringExtra("categoryId");
         String title = getIntent().getStringExtra("title");
-        binding.textTitle.setText(title);
         ArrayList<String> storyIds = getIntent().getStringArrayListExtra("storyIds");
 
-        if (storyIds != null && !storyIds.isEmpty()) {
-            // Show loading state
-            binding.showListRoot.setVisibility(View.VISIBLE);
+        if (title != null) {
+            binding.textTitle.setText(title);
+        }
 
-            // Pass story IDs to ViewModel
+        if (categoryId != null && !categoryId.isEmpty()) {
+
+            viewModel.getStoriesByCategory(categoryId).observe(this, stories -> {
+                if (stories != null && !stories.isEmpty()) {
+                    StoryAdapter adapter = new StoryAdapter(this, stories, storyId -> {
+                        viewModel.onStoryClicked(this, storyId);
+                    });
+                    binding.recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(this, "Không có truyện để hiển thị", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else if (storyIds != null && !storyIds.isEmpty()) {
+            binding.showListRoot.setVisibility(View.VISIBLE);
             viewModel.setStoryIds(storyIds);
 
-            // Observe story list changes
             viewModel.getStoryList().observe(this, stories -> {
                 binding.showListRoot.setVisibility(View.GONE);
-
                 if (stories != null && !stories.isEmpty()) {
-                    // Create adapter and set to RecyclerView with story IDs
                     StoryAdapter adapter = new StoryAdapter(this, stories, storyId -> {
-                        // Handle story click by ID
                         viewModel.onStoryClicked(this, storyId);
                     });
                     binding.recyclerView.setAdapter(adapter);
@@ -65,19 +67,16 @@ public class ShowListActivity extends AppCompatActivity {
                 }
             });
 
-            // Observe error states
-            viewModel.getErrorMessage().observe(this, errorMsg -> {
+            viewModel.getErrorMessage().observe(this, error -> {
                 binding.showListRoot.setVisibility(View.GONE);
-                if (errorMsg != null && !errorMsg.isEmpty()) {
-                    Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+                if (error != null) {
+                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
                 }
             });
-
         } else {
-            Toast.makeText(this, "Không có ID truyện để hiển thị", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Không có dữ liệu để hiển thị", Toast.LENGTH_SHORT).show();
         }
 
-        // Set up back button
         binding.textTitle.setOnClickListener(v -> finish());
     }
 }

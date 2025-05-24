@@ -3,6 +3,7 @@ package com.example.proreadapp.repository;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.proreadapp.database.StoryDatabase;
 import com.example.proreadapp.model.Category;
@@ -12,6 +13,7 @@ import com.example.proreadapp.model.StoryCategoryCrossRef;
 import com.example.proreadapp.dao.StoryDao;
 import com.example.proreadapp.dao.ChapterDao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,6 +75,13 @@ public class StoryRepository {
     public LiveData<List<Category>> getCategoriesByStoryId(String storyId) {
         return storyDao.getCategoriesByStoryId(storyId);
     }
+    public LiveData<List<Story>> getStoriesByCategoryId(String categoryId) {
+        return Transformations.map(storyDao.getStoriesByCategoryId(categoryId), input -> {
+            if (input != null) return input.stories;
+            return new ArrayList<>();
+        });
+    }
+
 
     public LiveData<List<Story>> getCompleteStories() {
         return storyDao.getCompleteStories();

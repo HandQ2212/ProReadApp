@@ -1,5 +1,6 @@
 package com.example.proreadapp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.proreadapp.adapter.CategoryAdapter;
 import com.example.proreadapp.databinding.FragmentTheLoaiBinding;
+import com.example.proreadapp.view.ShowListActivity;
 import com.example.proreadapp.viewmodel.CategoryViewModel;
 
 public class TheLoaiFragment extends Fragment {
@@ -37,6 +39,10 @@ public class TheLoaiFragment extends Fragment {
         adapter = new CategoryAdapter(category -> {
             Toast.makeText(getContext(), "Chọn thể loại: " + category.getName(), Toast.LENGTH_SHORT).show();
             // TODO: Chuyển fragment, truyền category.getId() hoặc category.getName()
+            Intent intent = new Intent(getContext(), ShowListActivity.class);
+            intent.putExtra("categoryId", category.getId());
+            intent.putExtra("title", category.getName());
+            startActivity(intent);
         });
 
         binding.theLoaiRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

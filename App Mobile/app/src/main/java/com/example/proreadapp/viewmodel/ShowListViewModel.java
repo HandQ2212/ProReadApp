@@ -18,12 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 public class ShowListViewModel extends AndroidViewModel {
     private final StoryRepository repository;
     private final MutableLiveData<List<Story>> storyList = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public ShowListViewModel(@NonNull Application application) {
         super(application);
@@ -36,6 +34,10 @@ public class ShowListViewModel extends AndroidViewModel {
 
     public LiveData<String> getErrorMessage() {
         return errorMessage;
+    }
+
+    public LiveData<List<Story>> getStoriesByCategory(String categoryId) {
+        return repository.getStoriesByCategoryId(categoryId);
     }
 
     public void setStoryIds(List<String> storyIds) {
@@ -71,25 +73,10 @@ public class ShowListViewModel extends AndroidViewModel {
         }
     }
 
-
-    public void setStoryList(List<Story> stories) {
-        storyList.setValue(stories);
-    }
-
     public void onStoryClicked(Context context, String storyId) {
         Intent intent = new Intent(context, StoryDetailActivity.class);
         intent.putExtra("storyId", storyId);
         context.startActivity(intent);
     }
-
-    public interface StoryCallback {
-        void onResult(Story story);
-        void onError(String message);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        executorService.shutdown();
-    }
 }
+
