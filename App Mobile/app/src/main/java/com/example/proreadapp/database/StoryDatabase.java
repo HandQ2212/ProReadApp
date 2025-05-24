@@ -13,22 +13,29 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.model.Chapter;
+import com.example.proreadapp.model.StoryCategoryCrossRef;
 import com.example.proreadapp.dao.StoryDao;
 import com.example.proreadapp.dao.ChapterDao;
 import com.example.proreadapp.dao.CategoryDao;
 import com.example.proreadapp.dao.StoryCategoryDao;
 
-import com.example.proreadapp.model.StoryCategoryCrossRef;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Database(entities = {Story.class, Chapter.class, Category.class, StoryCategoryCrossRef.class}, version = 3, exportSchema = false)
 public abstract class StoryDatabase extends RoomDatabase {
 
-    private static StoryDatabase instance;
+    private static volatile StoryDatabase instance;
 
     public abstract StoryDao storyDao();
     public abstract ChapterDao chapterDao();
     public abstract CategoryDao categoryDao();
     public abstract StoryCategoryDao storyCategoryDao();
+
+    private static final int NUMBER_OF_THREADS = 4;
+
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
@@ -46,7 +53,7 @@ public abstract class StoryDatabase extends RoomDatabase {
             Log.d("Migration", "Running migration from 2 to 3");
             database.execSQL(
                     "CREATE TABLE IF NOT EXISTS categories (" +
-                            "id TEXT NOT NULL PRIMARY KEY, " +
+                            "id TEXT PRIMARY KEY NOT NULL, " +
                             "name TEXT NOT NULL)"
             );
             database.execSQL(
@@ -62,15 +69,13 @@ public abstract class StoryDatabase extends RoomDatabase {
         }
     };
 
-
     public static synchronized StoryDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(
                             context.getApplicationContext(),
                             StoryDatabase.class,
                             "story_database")
-                    .addMigrations(MIGRATION_1_2)
-                    .addMigrations(MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build();
         }
         return instance;

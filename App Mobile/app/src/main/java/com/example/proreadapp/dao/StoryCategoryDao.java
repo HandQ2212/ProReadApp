@@ -15,4 +15,7 @@ public interface StoryCategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCrossRefs(List<StoryCategoryCrossRef> crossRefs);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertStoryCategoryCrossRef(StoryCategoryCrossRef crossRef);
 }

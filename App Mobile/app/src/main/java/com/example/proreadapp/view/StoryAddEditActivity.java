@@ -6,37 +6,42 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.proreadapp.R;
+import com.example.proreadapp.adapter.MultiSelectionAdapter;
+import com.example.proreadapp.databinding.ActivityStoryAddEditBinding;
+import com.example.proreadapp.databinding.DialogAddCategoryBinding;
+import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.viewmodel.CategoryViewModel;
 import com.example.proreadapp.viewmodel.StoryViewModel;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 public class StoryAddEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_STORY_ID = "com.example.storyapp.EXTRA_STORY_ID";
 
-    private TextInputEditText editTitle, editAuthor, editInfo, editDescription;
-    private ImageView imageStoryCover;
-    private Button btnSelectImage, btnSaveStory;
-
+    private ActivityStoryAddEditBinding binding;
     private StoryViewModel storyViewModel;
+    private CategoryViewModel categoryViewModel;
+    private MultiSelectionAdapter categoryAdapter;
 
     private String storyId;
     private Uri selectedImageUri = null;
@@ -46,31 +51,24 @@ public class StoryAddEditActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> pickMediaLauncher;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
-        setContentView(R.layout.activity_story_add_edit);
+        binding = ActivityStoryAddEditBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        editTitle = findViewById(R.id.edit_story_title);
-        editAuthor = findViewById(R.id.edit_story_author);
-        editInfo = findViewById(R.id.edit_story_info);
-        editDescription = findViewById(R.id.edit_story_description);
-        imageStoryCover = findViewById(R.id.image_story_cover);
-        btnSelectImage = findViewById(R.id.btn_select_image);
-        btnSaveStory = findViewById(R.id.btn_save_story);
+        if (getSupportActionBar() != null) getSupportActionBar().hide();
+
         storyViewModel = new ViewModelProvider(this).get(StoryViewModel.class);
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(EXTRA_STORY_ID)) {
-            storyId = intent.getStringExtra(EXTRA_STORY_ID);
-            isEditMode = true;
-            loadStoryData(storyId);
-        } else {
-            isEditMode = false;
+        storyId = getIntent().getStringExtra(EXTRA_STORY_ID);
+        isEditMode = storyId != null;
+
+        if (!isEditMode) {
             storyId = UUID.randomUUID().toString();
-            imageStoryCover.setImageResource(R.drawable.ic_image_placeholder);
+            binding.imageStoryCover.setImageResource(R.drawable.ic_image_placeholder);
+        } else {
+            loadStoryData(storyId);
         }
 
         pickMediaLauncher = registerForActivityResult(
@@ -78,26 +76,82 @@ public class StoryAddEditActivity extends AppCompatActivity {
                 uri -> {
                     if (uri != null) {
                         Uri savedUri = copyImageToInternalStorage(uri);
-                        if (savedUri != null) {
-                            selectedImageUri = savedUri;
-                            Glide.with(this).load(selectedImageUri).into(imageStoryCover);
-                        } else {
-                            selectedImageUri = uri;
-                            Glide.with(this).load(selectedImageUri).into(imageStoryCover);
-                        }
-                    } else {
-                        Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
+                        selectedImageUri = savedUri != null ? savedUri : uri;
+                        Glide.with(this).load(selectedImageUri).into(binding.imageStoryCover);
                     }
-                }
-        );
+                });
 
-        btnSelectImage.setOnClickListener(v -> {
-            if (checkAndRequestPermissions()) {
-                openImagePicker();
-            }
+        binding.btnSelectImage.setOnClickListener(v -> {
+            if (checkAndRequestPermissions()) openImagePicker();
         });
 
-        btnSaveStory.setOnClickListener(v -> saveStory());
+        binding.btnSaveStory.setOnClickListener(v -> saveStory());
+
+        setupCategoryList();
+        binding.btnSelectCategories.setOnClickListener(v -> showAddCategoryDialog());
+    }
+
+    private void setupCategoryList() {
+        categoryAdapter = new MultiSelectionAdapter();
+        binding.recyclerCategories.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerCategories.setAdapter(categoryAdapter);
+
+        categoryViewModel.getAllCategories().observe(this, categories -> {
+            categoryAdapter.submitList(categories);
+            if (isEditMode) {
+                storyViewModel.getCategoriesByStoryId(storyId).observe(this, selected -> {
+                    categoryAdapter.setSelectedCategories(selected);
+                });
+            }
+        });
+    }
+
+    private void showAddCategoryDialog() {
+        DialogAddCategoryBinding dialogBinding = DialogAddCategoryBinding.inflate(LayoutInflater.from(this));
+        new AlertDialog.Builder(this)
+                .setTitle("Thêm thể loại")
+                .setView(dialogBinding.getRoot())
+                .setPositiveButton("Lưu", (dialog, which) -> {
+                    String name = dialogBinding.editCategoryName.getText().toString().trim();
+                    if (!name.isEmpty()) {
+                        categoryViewModel.insertCategory(new Category(name));
+                    } else {
+                        Toast.makeText(this, "Tên thể loại không được để trống", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void loadStoryData(String id) {
+        storyViewModel.getStoryById(id).observe(this, story -> {
+            if (story != null) {
+                binding.editStoryTitle.setText(story.getTitle());
+                binding.editStoryAuthor.setText(story.getAuthor());
+                binding.editStoryInfo.setText(story.getInfo());
+                binding.editStoryDescription.setText(story.getDescription());
+                Glide.with(this)
+                        .load(story.getImageUri() != null ? Uri.parse(story.getImageUri()) : R.drawable.ic_image_placeholder)
+                        .into(binding.imageStoryCover);
+            }
+        });
+    }
+
+    private Uri copyImageToInternalStorage(Uri uri) {
+        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
+            File file = new File(getFilesDir(), "story_" + System.currentTimeMillis() + ".jpg");
+            try (OutputStream outputStream = new FileOutputStream(file)) {
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+                return Uri.fromFile(file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private boolean checkAndRequestPermissions() {
@@ -115,88 +169,35 @@ public class StoryAddEditActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openImagePicker();
-            } else {
-                Toast.makeText(this, "Permission denied to access images", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     private void openImagePicker() {
         pickMediaLauncher.launch("image/*");
     }
 
-    private void loadStoryData(String id) {
-        storyViewModel.getStoryById(id).observe(this, story -> {
-            if (story != null) {
-                editTitle.setText(story.getTitle());
-                editAuthor.setText(story.getAuthor());
-                editInfo.setText(story.getInfo());
-                editDescription.setText(story.getDescription());
-
-                if (story.getImageUri() != null) {
-                    Glide.with(this)
-                            .load(Uri.parse(story.getImageUri()))
-                            .placeholder(R.drawable.ic_image_placeholder)
-                            .error(R.drawable.ic_image_placeholder)
-                            .into(imageStoryCover);
-                } else {
-                    imageStoryCover.setImageResource(R.drawable.ic_image_placeholder);
-                }
-            }
-        });
-    }
-
-    private Uri copyImageToInternalStorage(Uri uri) {
-        try (InputStream inputStream = getContentResolver().openInputStream(uri)) {
-            String fileName = "story_" + System.currentTimeMillis() + ".jpg";
-            File file = new File(getFilesDir(), fileName);
-            try (OutputStream outputStream = new FileOutputStream(file)) {
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
-                }
-                return Uri.fromFile(file);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private void saveStory() {
-        String title = editTitle.getText().toString().trim();
-        String author = editAuthor.getText().toString().trim();
-        String info = editInfo.getText().toString().trim();
-        String description = editDescription.getText().toString().trim();
+        String title = binding.editStoryTitle.getText().toString().trim();
+        String author = binding.editStoryAuthor.getText().toString().trim();
+        String info = binding.editStoryInfo.getText().toString().trim();
+        String description = binding.editStoryDescription.getText().toString().trim();
 
         if (title.isEmpty() || author.isEmpty()) {
-            Toast.makeText(this, "Please enter title and author", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng nhập tên truyện và tác giả", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String imageUriString = selectedImageUri != null ? selectedImageUri.toString() : null;
 
         Story story = new Story(storyId, title, author, info, description, R.drawable.ic_image_placeholder, imageUriString);
-
         storyViewModel.insertStory(story);
 
-        Toast.makeText(this, "Story saved", Toast.LENGTH_SHORT).show();
+        // Cập nhật danh sách thể loại cho truyện
+        List<Category> selectedCategories = categoryAdapter.getSelectedCategories();
+        storyViewModel.insertStoryWithCategories(storyId, selectedCategories);
 
-        if (!isEditMode) {
-            isEditMode = true;
-        }
+        Toast.makeText(this, "Đã lưu truyện", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, ChapterAddEditActivity.class);
         intent.putExtra(EXTRA_STORY_ID, storyId);
         startActivity(intent);
-
         finish();
     }
 }

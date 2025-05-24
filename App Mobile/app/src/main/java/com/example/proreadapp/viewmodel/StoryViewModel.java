@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.repository.StoryRepository;
@@ -50,7 +51,17 @@ public class StoryViewModel extends AndroidViewModel {
         repository.insertChapter(chapter);
     }
 
+    public LiveData<List<Category>> getCategoriesByStoryId(String storyId) {
+        return repository.getCategoriesByStoryId(storyId);
+    }
+
+
     public LiveData<List<Chapter>> getChaptersByStoryId(String storyId) {
         return repository.getChaptersByStoryId(storyId);
     }
+
+    public void insertStoryWithCategories(String storyId, List<Category> categories) {
+        repository.insertStoryWithCategories(storyId, categories);
+    }
+
 }

@@ -1,10 +1,14 @@
 package com.example.proreadapp.repository;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
+
 import com.example.proreadapp.database.StoryDatabase;
+import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.model.Story;
+import com.example.proreadapp.model.StoryCategoryCrossRef;
 import com.example.proreadapp.dao.StoryDao;
 import com.example.proreadapp.dao.ChapterDao;
 
@@ -13,10 +17,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class StoryRepository {
-    private StoryDao storyDao;
-    private ChapterDao chapterDao;
-    private LiveData<List<Story>> allStories;
-    private ExecutorService executorService;
+    private final StoryDao storyDao;
+    private final ChapterDao chapterDao;
+    private final LiveData<List<Story>> allStories;
+    private final ExecutorService executorService;
 
     public StoryRepository(Application application) {
         StoryDatabase database = StoryDatabase.getInstance(application);
@@ -66,7 +70,21 @@ public class StoryRepository {
         return storyDao.getRecentlyUpdatedStories();
     }
 
+    public LiveData<List<Category>> getCategoriesByStoryId(String storyId) {
+        return storyDao.getCategoriesByStoryId(storyId);
+    }
+
     public LiveData<List<Story>> getCompleteStories() {
         return storyDao.getCompleteStories();
     }
+
+    public void insertStoryWithCategories(String storyId, List<Category> categories) {
+        StoryDatabase.databaseWriteExecutor.execute(() -> {
+            for (Category category : categories) {
+                storyDao.insertCategoryIfNotExists(category); // phòng trường hợp category mới
+                storyDao.insertStoryCategoryCrossRef(new StoryCategoryCrossRef(storyId, category.getId()));
+            }
+        });
+    }
+
 }

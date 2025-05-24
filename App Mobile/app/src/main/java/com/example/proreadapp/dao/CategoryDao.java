@@ -24,4 +24,8 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM categories")
     LiveData<List<Category>> getAllCategories();
+
+    @Query("SELECT * FROM categories c INNER JOIN story_category_cross_ref sc ON c.id = sc.categoryId WHERE sc.storyId = :storyId")
+    LiveData<List<Category>> getCategoriesByStoryId(String storyId);
+
 }

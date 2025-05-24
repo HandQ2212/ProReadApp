@@ -25,7 +25,7 @@ public class CategoryRepository {
 
     public void insertCategory(String name) {
         executor.execute(() -> {
-            Category category = new Category(UUID.randomUUID().toString(), name);
+            Category category = new Category(name);
             categoryDao.insert(category);
         });
     }

@@ -117,6 +117,17 @@
                     android:contentDescription="Story cover image" />
 
             </LinearLayout>
+            <Button
+                android:id="@+id/btn_select_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn thể loại" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btn_save_story"
@@ -140,12 +151,6 @@
                     android:text="Chapters"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_chapters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp" />
 
                 <Button
                     android:id="@+id/btn_add_chapter"

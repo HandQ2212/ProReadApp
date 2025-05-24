@@ -15,23 +15,27 @@ import java.util.List;
 public class CategoryViewModel extends AndroidViewModel {
 
     private final CategoryRepository repository;
-    private final LiveData<List<Category>> categoryList;
+    private final LiveData<List<Category>> allCategories;
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
         repository = new CategoryRepository(StoryDatabase.getInstance(application).categoryDao());
-        categoryList = repository.getAllCategories();
+        allCategories = repository.getAllCategories();
     }
 
-    public LiveData<List<Category>> getCategories() {
-        return categoryList;
+    public LiveData<List<Category>> getAllCategories() {
+        return allCategories;
     }
 
-    public void addCategory(String name) {
-        repository.insertCategory(name);
+    public void insertCategory(Category category) {
+        repository.insertCategory(category.getName());
     }
 
     public void insertDefaultCategories() {
         repository.insertDefaultCategories();
+    }
+
+    public LiveData<List<Category>> getCategories() {
+        return allCategories;
     }
 }

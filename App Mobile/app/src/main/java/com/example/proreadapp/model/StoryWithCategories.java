@@ -11,8 +11,8 @@ public class StoryWithCategories {
     public Story story;
 
     @Relation(
-            parentColumn = "id",
-            entityColumn = "id",
+            parentColumn = "storyId",
+            entityColumn = "categoryId",
             associateBy = @Junction(
                     value = StoryCategoryCrossRef.class,
                     parentColumn = "storyId",

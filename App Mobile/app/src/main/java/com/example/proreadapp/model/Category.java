@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.UUID;
+
 @Entity(tableName = "categories")
 public class Category {
 
@@ -14,8 +16,8 @@ public class Category {
     @NonNull
     private String name;
 
-    public Category(@NonNull String id, @NonNull String name) {
-        this.id = id;
+    public Category(@NonNull String name) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
     }
 
