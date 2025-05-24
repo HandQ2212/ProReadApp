@@ -1,24 +1,37 @@
 package com.example.proreadapp.viewmodel;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.proreadapp.database.StoryDatabase;
+import com.example.proreadapp.model.Category;
+import com.example.proreadapp.repository.CategoryRepository;
+
 import java.util.List;
 
-public class CategoryViewModel extends ViewModel{
-    private final MutableLiveData<List<String>> categoryList = new MutableLiveData<>(new ArrayList<>());
+public class CategoryViewModel extends AndroidViewModel {
 
-    public LiveData<List<String>> getCategories(){
+    private final CategoryRepository repository;
+    private final LiveData<List<Category>> categoryList;
+
+    public CategoryViewModel(@NonNull Application application) {
+        super(application);
+        repository = new CategoryRepository(StoryDatabase.getInstance(application).categoryDao());
+        categoryList = repository.getAllCategories();
+    }
+
+    public LiveData<List<Category>> getCategories() {
         return categoryList;
     }
 
-    public void addCategory(String category){
-        List<String> current = categoryList.getValue();
-        if (!current.contains(category)){
-            current.add(category);
-            categoryList.setValue(current);
-        }
+    public void addCategory(String name) {
+        repository.insertCategory(name);
+    }
+
+    public void insertDefaultCategories() {
+        repository.insertDefaultCategories();
     }
 }

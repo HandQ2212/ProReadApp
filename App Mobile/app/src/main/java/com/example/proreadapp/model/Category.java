@@ -1,17 +1,39 @@
 package com.example.proreadapp.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import androidx.annotation.NonNull;
-
 @Entity(tableName = "categories")
 public class Category {
+
     @PrimaryKey
     @NonNull
-    public String id;
+    private String id;
 
     @NonNull
-    public String name;
-}
+    private String name;
 
+    public Category(@NonNull String id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+}

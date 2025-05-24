@@ -10,6 +10,8 @@ import androidx.room.Transaction;
 import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.CategoryWithStories;
 
+import java.util.List;
+
 @Dao
 public interface CategoryDao {
 
@@ -18,5 +20,8 @@ public interface CategoryDao {
     LiveData<CategoryWithStories> getCategoryWithStories(String categoryId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertCategory(Category category);
+    void insert(Category category);
+
+    @Query("SELECT * FROM categories")
+    LiveData<List<Category>> getAllCategories();
 }
