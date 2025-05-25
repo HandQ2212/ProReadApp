@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
+import android.util.Log;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import com.example.proreadapp.databinding.FragmentTimKiemBinding;
 import com.example.proreadapp.model.SearchItem;
 import com.example.proreadapp.adapter.SearchAdapter;
 import com.example.proreadapp.viewmodel.SearchViewModel;
+import com.example.proreadapp.viewmodel.SearchViewModelFactory;
 
 import java.util.List;
 
@@ -41,10 +44,12 @@ public class TimKiemFragment extends Fragment {
         setupRecyclerView();
         setupSearchView();
         observeViewModel();
+
     }
 
     private void setupViewModel() {
-        viewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        SearchViewModelFactory factory = new SearchViewModelFactory(requireContext());
+        viewModel = new ViewModelProvider(this, factory).get(SearchViewModel.class);
     }
 
     private void setupRecyclerView() {
@@ -64,8 +69,7 @@ public class TimKiemFragment extends Fragment {
 
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -74,8 +78,7 @@ public class TimKiemFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         binding.imgClear.setOnClickListener(v -> {
@@ -91,27 +94,23 @@ public class TimKiemFragment extends Fragment {
             binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         });
 
-        viewModel.getSearchQuery().observe(getViewLifecycleOwner(), query -> {
+        viewModel.getSearchResults().observe(getViewLifecycleOwner(), results -> {
+            Log.d("TimKiemFragment", "Số truyện tìm được: " + results.size());
+            handleSearchResults(results);
         });
     }
 
     private void performSearch(String query) {
-        if (query == null || query.trim().isEmpty()) {
-            return;
-        }
-
-        viewModel.searchBooks(query).observe(getViewLifecycleOwner(), this::handleSearchResults);
+        if (query == null || query.trim().isEmpty()) return;
+        viewModel.setSearchQuery(query);
     }
 
+
     private void handleSearchResults(List<SearchItem> results) {
-        if (results.isEmpty()) {
-            binding.tvNoResults.setVisibility(View.VISIBLE);
-            binding.rvSearchResults.setVisibility(View.GONE);
-        } else {
-            binding.tvNoResults.setVisibility(View.GONE);
-            binding.rvSearchResults.setVisibility(View.VISIBLE);
-            adapter.setItems(results);
+        for (SearchItem item : results) {
+            Log.d("SearchResult", "Truyện: " + item.getTitle());
         }
+        adapter.setItems(results);
     }
 
     private void onSearchItemClick(SearchItem item) {

@@ -90,7 +90,7 @@ public class StoryRepository {
     public void insertStoryWithCategories(String storyId, List<Category> categories) {
         StoryDatabase.databaseWriteExecutor.execute(() -> {
             for (Category category : categories) {
-                storyDao.insertCategoryIfNotExists(category); // phòng trường hợp category mới
+                storyDao.insertCategoryIfNotExists(category);
                 storyDao.insertStoryCategoryCrossRef(new StoryCategoryCrossRef(storyId, category.getId()));
             }
         });

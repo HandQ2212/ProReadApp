@@ -1,30 +1,42 @@
 package com.example.proreadapp.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.proreadapp.model.SearchItem;
 import com.example.proreadapp.repository.SearchRepository;
 
-import java.util.List;
+import java.util.List;import android.util.Log;
+
 
 public class SearchViewModel extends ViewModel {
-    private final SearchRepository repository;
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private SearchRepository repository;
     private final MutableLiveData<String> searchQuery = new MutableLiveData<>("");
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    public SearchViewModel() {
-        repository = SearchRepository.getInstance();
+    // LiveData kết quả search sẽ tự động cập nhật khi searchQuery thay đổi
+
+
+    public SearchViewModel(Context context) {
+        repository = SearchRepository.getInstance(context);
     }
 
-    public LiveData<List<SearchItem>> searchBooks(String query) {
-        isLoading.setValue(true);
-        LiveData<List<SearchItem>> searchResults = repository.searchBooks(query);
-        isLoading.setValue(false);
+    private final LiveData<List<SearchItem>> searchResults = Transformations.switchMap(searchQuery, query -> {
+        if (query == null || query.trim().isEmpty()) {
+            return new MutableLiveData<>(List.of());
+        } else {
+            isLoading.setValue(true);
+            Log.d("TimKiemFragment", "Tìm kiếm với từ khóa: " + query);
+            LiveData<List<SearchItem>> results = repository.searchBooks(query);
 
-        return searchResults;
-    }
+
+            return results;
+        }
+    });
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
@@ -37,4 +49,10 @@ public class SearchViewModel extends ViewModel {
     public void setSearchQuery(String query) {
         searchQuery.setValue(query);
     }
+
+    public LiveData<List<SearchItem>> getSearchResults() {
+        return searchResults;
+    }
+
+
 }

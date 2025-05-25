@@ -41,7 +41,7 @@ public interface StoryDao {
     @Query("SELECT * FROM stories")
     LiveData<List<Story>> getAllStories();
 
-    @Query("SELECT * FROM stories WHERE title LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM stories WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'")
     LiveData<List<Story>> searchStories(String query);
 
     @Query("SELECT * FROM stories ORDER BY createdAt DESC")

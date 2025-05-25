@@ -1,9 +1,16 @@
 package com.example.proreadapp.repository;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
+import com.example.proreadapp.database.StoryDatabase;
+import com.example.proreadapp.dao.StoryDao;
 import com.example.proreadapp.model.SearchItem;
+import com.example.proreadapp.model.Story;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,76 +20,51 @@ import java.util.concurrent.Executors;
 public class SearchRepository {
     private static SearchRepository instance;
     private final ExecutorService executorService;
+    private final StoryDao storyDao;
 
-    private SearchRepository() {
+    private SearchRepository(Context context) {
+        StoryDatabase db = StoryDatabase.getInstance(context);
+        storyDao = db.storyDao();
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    public static synchronized SearchRepository getInstance() {
+    public static synchronized SearchRepository getInstance(Context context) {
         if (instance == null) {
-            instance = new SearchRepository();
+            instance = new SearchRepository(context);
         }
         return instance;
     }
 
     public LiveData<List<SearchItem>> searchBooks(String query) {
+        LiveData<List<Story>> storiesLiveData = storyDao.searchStories(query);
         MutableLiveData<List<SearchItem>> searchResults = new MutableLiveData<>();
+        storiesLiveData.observeForever(new Observer<List<Story>>() {
+            @Override
+            public void onChanged(List<Story> stories) {
+                if (stories == null) {
+                    searchResults.postValue(new ArrayList<>());
+                    return;
+                }
 
-        executorService.execute(() -> {
-            try {
-                Thread.sleep(1000);//chờ
+                List<SearchItem> items = new ArrayList<>();
+                for (Story story : stories) {
+                    items.add(new SearchItem(
+                            story.getId(),
+                            story.getTitle(),
+                            story.getAuthor(),
+                            story.getDescription(),
+                            story.getImageUri() != null ? story.getImageUri() : ""
+                    ));
+                    Log.d("SearchRepo", "Tìm thấy: " + story.getTitle());
+                }
 
-                // This would be replaced with actual API call or database query
-                List<SearchItem> results = performSearch(query);
-
-                searchResults.postValue(results);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                searchResults.postValue(new ArrayList<>());
+                searchResults.postValue(items);
             }
         });
 
         return searchResults;
     }
 
-    private List<SearchItem> performSearch(String query) {
-        List<SearchItem> results = new ArrayList<>();
 
-        if (query != null && !query.isEmpty()) {
-            results.add(new SearchItem(
-                    "1",
-                    "Đắc Nhân Tâm",
-                    "Dale Carnegie",
-                    "Cuốn sách nổi tiếng về nghệ thuật đối nhân xử thế",
-                    "https://tiemsach.org/wp-content/uploads/2023/07/Ebook-Dac-nhan-tam.jpg"));
 
-            results.add(new SearchItem(
-                    "2",
-                    "Nhà Giả Kim",
-                    "Paulo Coelho",
-                    "Câu chuyện về hành trình khám phá vận mệnh của chính mình",
-                    "https://th.bing.com/th/id/OIP._yzetDs3gher9vBV-Ax_iAHaL0?w=124&h=198&c=7&r=0&o=7&cb=iwp2&pid=1.7&rm=3"));
-
-            results.add(new SearchItem(
-               "3","Title 1", "Author 1", "Đây là truyện VD 1", "https://th.bing.com/th/id/OIP.AB5pC1gH8M5eQ5SlSPJBJAHaLB?cb=iwp2&rs=1&pid=ImgDetMain"
-            ));
-            results.add(new SearchItem(
-                    "3","Title 2", "Author 2", "Đây là truyện VD 2", "https://th.bing.com/th/id/OIP.AB5pC1gH8M5eQ5SlSPJBJAHaLB?cb=iwp2&rs=1&pid=ImgDetMain"
-            ));
-            results.add(new SearchItem(
-                    "3","Title 3", "Author 3", "Đây là truyện VD 3", "https://th.bing.com/th/id/OIP.AB5pC1gH8M5eQ5SlSPJBJAHaLB?cb=iwp2&rs=1&pid=ImgDetMain"
-            ));
-
-            List<SearchItem> filteredResults = new ArrayList<>();
-            for (SearchItem item : results) {
-                if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                        item.getAuthor().toLowerCase().contains(query.toLowerCase())) {
-                    filteredResults.add(item);
-                }
-            }
-            return filteredResults;
-        }
-
-        return results;
-    }
 }
