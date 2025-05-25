@@ -1,5 +1,6 @@
 package com.example.proreadapp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,9 +18,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.proreadapp.adapter.StoryAdapter;
 import com.example.proreadapp.databinding.FragmentTimKiemBinding;
 import com.example.proreadapp.model.SearchItem;
 import com.example.proreadapp.adapter.SearchAdapter;
+import com.example.proreadapp.view.StoryDetailActivity;
 import com.example.proreadapp.viewmodel.SearchViewModel;
 import com.example.proreadapp.viewmodel.SearchViewModelFactory;
 
@@ -115,6 +118,9 @@ public class TimKiemFragment extends Fragment {
 
     private void onSearchItemClick(SearchItem item) {
         Toast.makeText(requireContext(), "Đã chọn: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+        intent.putExtra("storyId", item.getId());
+        startActivity(intent);
     }
 
     @Override

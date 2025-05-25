@@ -77,11 +77,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             if (item.getThumbnailUrl() != null && !item.getThumbnailUrl().isEmpty()) {
                 Glide.with(itemView.getContext())
                         .load(item.getThumbnailUrl())
-                        .placeholder(R.drawable.mucthanky)
+                        .placeholder(R.drawable.ic_image_placeholder)
                         .error(R.drawable.error_book)
                         .into(imgThumbnail);
             } else {
-                imgThumbnail.setImageResource(R.drawable.mucthanky);
+                imgThumbnail.setImageResource(R.drawable.ic_image_placeholder);
             }
 
             itemView.setOnClickListener(v -> {
