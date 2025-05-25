@@ -10,10 +10,10 @@ public class Chapter {
     private String storyId;
     private String title;
     private String content;
-    private int currentChapter;
-    private int totalChapters;
+    private Integer currentChapter;
+    private Integer totalChapters;
 
-    public Chapter(String title, String content, int currentChapter, int totalChapters, String storyId) {
+    public Chapter(String title, String content, Integer currentChapter, Integer totalChapters, String storyId) {
         this.title = title;
         this.content = content;
         this.currentChapter = currentChapter;
@@ -27,6 +27,6 @@ public class Chapter {
     public void setStoryId(String storyId) { this.storyId = storyId; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
-    public int getCurrentChapter() { return currentChapter; }
-    public int getTotalChapters() { return totalChapters; }
+    public Integer getCurrentChapter() { return currentChapter; }
+    public Integer getTotalChapters() { return totalChapters; }
 }

@@ -15,14 +15,14 @@ public class Story {
     private String author;
     private String info;
     private String description;
-    private int imageResId;
+    private Integer imageResId;
     private String imageUri;
 
     private long createdAt;
     private long updatedAt;
-    private String status;
+    private boolean status;
 
-    public Story(@NonNull String id, String title, String author, String info, String description, int imageResId, String imageUri) {
+    public Story(@NonNull String id, String title, String author, String info, String description, Integer imageResId, String imageUri) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -58,7 +58,7 @@ public class Story {
         return description;
     }
 
-    public int getImageResId() {
+    public Integer getImageResId() {
         return imageResId;
     }
 
@@ -78,11 +78,11 @@ public class Story {
         this.updatedAt = updatedAt;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

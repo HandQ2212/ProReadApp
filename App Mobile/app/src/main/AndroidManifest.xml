@@ -29,6 +29,8 @@
         <activity android:name=".view.ShowListActivity" />
         <activity android:name=".view.StoryAddEditActivity" />
         <activity android:name=".view.ChapterAddEditActivity" />
+        <activity android:name=".view.StoryEditActivity" />
+        <activity android:name=".view.StoryListEditActivity" />
 
 
     </application>

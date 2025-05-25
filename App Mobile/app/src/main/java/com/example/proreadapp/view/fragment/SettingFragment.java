@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.proreadapp.databinding.FragmentSettingBinding;
 import com.example.proreadapp.view.ChapterAddEditActivity;
 import com.example.proreadapp.view.StoryAddEditActivity;
+import com.example.proreadapp.view.StoryListEditActivity;
 import com.example.proreadapp.viewmodel.ReaderSettingViewModel;
 
 public class SettingFragment extends Fragment{
@@ -31,6 +32,11 @@ public class SettingFragment extends Fragment{
 
         binding.btnAddStory.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), StoryAddEditActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnSuaStory.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), StoryListEditActivity.class);
             startActivity(intent);
         });
 

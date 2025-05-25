@@ -11,8 +11,10 @@ import androidx.room.Update;
 
 import com.example.proreadapp.model.Category;
 import com.example.proreadapp.model.CategoryWithStories;
+import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.model.Story;
 import com.example.proreadapp.model.StoryCategoryCrossRef;
+import com.example.proreadapp.model.StoryWithChapters;
 
 import java.util.List;
 
@@ -81,4 +83,14 @@ public interface StoryDao {
     @Query("SELECT * FROM categories WHERE id = :categoryId")
     LiveData<CategoryWithStories> getStoriesByCategoryId(String categoryId);
 
+    @Transaction
+    @Query("SELECT * FROM stories WHERE id = :storyId")
+    LiveData<StoryWithChapters> getStoryWithChapters(String storyId);
+
+
+    @Update
+    void updateStory(Story story);
+
+    @Insert
+    long insertChapter(Chapter chapter);
 }
