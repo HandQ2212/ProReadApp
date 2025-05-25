@@ -35,11 +35,12 @@ public class StoryDetailActivity extends AppCompatActivity {
         }
 
         storyDetailViewModel = new ViewModelProvider(this).get(StoryDetailViewModel.class);
-
         String storyIdStr = getIntent().getStringExtra("storyId");
         if (storyIdStr != null) {
             storyDetailViewModel.loadStoryById(storyIdStr);
         }
+        storyDetailViewModel.updateLastReadTime(storyIdStr);
+
 
         storyDetailViewModel.getStoryLiveData().observe(this, story -> {
             if (story != null) {

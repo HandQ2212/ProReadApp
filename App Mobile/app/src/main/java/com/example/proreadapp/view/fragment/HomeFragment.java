@@ -113,6 +113,30 @@ public class HomeFragment extends Fragment{
             binding.recyclerViewComplete.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerViewComplete.setAdapter(adapter);
         });
+
+        viewModel.getLastReadStoryList().observe(getViewLifecycleOwner(), stories -> {
+            if (stories != null) {
+                List<Story> filteredStories = new ArrayList<>();
+                for (Story s : stories) {
+                    if (s.getLastReadAt() > 0) {
+                        filteredStories.add(s);
+                    }
+                }
+
+                StoryAdapter adapter = new StoryAdapter(requireContext(), filteredStories, new StoryAdapter.OnStoryClickListener() {
+                    @Override
+                    public void onStoryClick(String storyId) {
+                        Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+                        intent.putExtra("storyId", storyId);
+                        startActivity(intent);
+                        Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                binding.recyclerViewLastRead.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                binding.recyclerViewLastRead.setAdapter(adapter);
+            }
+        });
+
     }
 
     @Override

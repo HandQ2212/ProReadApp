@@ -15,11 +15,14 @@ import com.example.proreadapp.model.Story;
 import com.example.proreadapp.repository.StoryRepository;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class StoryDetailViewModel extends AndroidViewModel {
     private final StoryRepository repository;
     private final ChapterDao chapterDao;
     private final MutableLiveData<Story> storyLiveData = new MutableLiveData<>();
+    private final Executor executor = Executors.newSingleThreadExecutor();
 
     public StoryDetailViewModel(@NonNull Application application) {
         super(application);
@@ -40,5 +43,11 @@ public class StoryDetailViewModel extends AndroidViewModel {
     public LiveData<List<Chapter>> getChaptersByStoryId(String storyId) {
         return chapterDao.getChaptersByStoryId(storyId);
     }
+
+    public void updateLastReadTime(String storyId) {
+        executor.execute(() -> {
+            repository.updateLastReadTime(storyId, System.currentTimeMillis());
+        });    }
+
 
 }

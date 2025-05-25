@@ -64,6 +64,7 @@ public class StoryRepository {
     }
 
 
+
     public LiveData<List<Chapter>> getChaptersByStoryId(String storyId) {
         return chapterDao.getChaptersByStoryId(storyId);
     }
@@ -75,6 +76,15 @@ public class StoryRepository {
     public LiveData<List<Story>> getRecentlyUpdatedStories() {
         return storyDao.getRecentlyUpdatedStories();
     }
+
+    public LiveData<List<Story>> getRecentlyReadStories() {
+        return storyDao.getRecentlyReadStories();
+    }
+
+    public void updateLastReadTime(String storyId, long timestamp) {
+        storyDao.updateLastReadTime(storyId, timestamp);
+    }
+
 
     public LiveData<List<Category>> getCategoriesByStoryId(String storyId) {
         return storyDao.getCategoriesByStoryId(storyId);

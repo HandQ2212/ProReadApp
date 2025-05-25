@@ -20,6 +20,7 @@ public class Story {
 
     private long createdAt;
     private long updatedAt;
+    private long lastReadAt;
     private boolean status;
 
     public Story(@NonNull String id, String title, String author, String info, String description, Integer imageResId, String imageUri) {
@@ -92,5 +93,13 @@ public class Story {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public long getLastReadAt() {
+        return lastReadAt;
+    }
+
+    public void setLastReadAt(long lastReadAt) {
+        this.lastReadAt = lastReadAt;
     }
 }

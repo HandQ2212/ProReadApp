@@ -17,6 +17,7 @@ public class HomeViewModel extends ViewModel {
     private final LiveData<List<Story>> newestStoryList;
     private final LiveData<List<Story>> recentlyUpdatedStoryList;
     private final LiveData<List<Story>> completeStoryList;
+    private final LiveData<List<Story>> lastReadStoryList;
 
     private final MutableLiveData<List<String>> selectedStoryIds = new MutableLiveData<>();
     private final MutableLiveData<Boolean> navigateToShowList = new MutableLiveData<>();
@@ -27,6 +28,8 @@ public class HomeViewModel extends ViewModel {
         newestStoryList = storyRepository.getNewestStories();
         recentlyUpdatedStoryList = storyRepository.getRecentlyUpdatedStories();
         completeStoryList = storyRepository.getCompleteStories();
+        lastReadStoryList = storyRepository.getRecentlyReadStories();
+
     }
 
 
@@ -38,9 +41,8 @@ public class HomeViewModel extends ViewModel {
         return recentlyUpdatedStoryList;
     }
 
-    public LiveData<List<Story>> getCompleteStoryList() {
-        return completeStoryList;
-    }
+    public LiveData<List<Story>> getCompleteStoryList() { return completeStoryList; }
+    public LiveData<List<Story>> getLastReadStoryList() {   return lastReadStoryList;   }
 
     public LiveData<List<String>> getSelectedStoryIds() {
         return selectedStoryIds;

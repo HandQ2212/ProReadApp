@@ -55,6 +55,12 @@ public interface StoryDao {
     @Query("SELECT * FROM stories WHERE status = 1")
     LiveData<List<Story>> getCompleteStories();
 
+    @Query("UPDATE stories SET lastReadAt = :timestamp WHERE id = :storyId")
+    void updateLastReadTime(String storyId, long timestamp);
+
+    @Query("SELECT * FROM stories ORDER BY lastReadAt DESC LIMIT 10")
+    LiveData<List<Story>> getRecentlyReadStories();
+
 
     // Chèn hoặc bỏ qua nếu trùng key
     @Insert(onConflict = OnConflictStrategy.IGNORE)
