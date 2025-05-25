@@ -1,0 +1,10 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button
+        android:id="@+id/categoryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:backgroundTint="@color/night_gray"
+        android:textColor="@color/text_color"
+        android:text="Thể loại" />
+</layout>

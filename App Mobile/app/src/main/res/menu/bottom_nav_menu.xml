@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/theLoaiFragment"
+        android:icon="@drawable/ic_theloai"
+        android:title="Thể Loại"/>
+
+    <item
+        android:id="@+id/timKiemFragment"
+        android:icon="@drawable/ic_timkiem"
+        android:title="Tìm kiếm"/>
+
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/ic_setting"
+        android:title="Setting"/>
+
+</menu>

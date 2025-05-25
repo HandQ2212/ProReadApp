@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProReadApp</string>
+    <string name="tim_kiem">Tìm kiếm...</string>
+    <string name="khong_tim_thay_ket_qua">Không tìm thấy kết quả nào</string>
+    <string name="search_icon">Biểu tượng tìm kiếm</string>
+    <string name="clear_icon">Biểu tượng xóa</string>
+    <string name="thumbnail">Ảnh thu nhỏ của sách</string>
+</resources>

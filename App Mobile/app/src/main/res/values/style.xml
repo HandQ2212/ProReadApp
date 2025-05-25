@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Style cho chữ khi được chọn -->
+    <style name="ActiveTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <!-- Style cho chữ khi không được chọn -->
+    <style name="InactiveTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">1sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+</resources>
