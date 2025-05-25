@@ -189,7 +189,7 @@ public class StoryAddEditActivity extends AppCompatActivity {
         Story story = new Story(storyId, title, author, info, description, R.drawable.ic_image_placeholder, imageUriString);
         storyViewModel.insertStory(story);
         story.setLastReadAt(0);
-
+        story.setUpdatedAt(System.currentTimeMillis());
         // Cập nhật danh sách thể loại cho truyện
         List<Category> selectedCategories = categoryAdapter.getSelectedCategories();
         storyViewModel.insertStoryWithCategories(storyId, selectedCategories);

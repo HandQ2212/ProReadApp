@@ -33,6 +33,7 @@ public class StoryEditViewModel extends AndroidViewModel {
     public void updateStoryCompletionStatus(Story story, boolean isCompleted) {
         new Thread(() -> {
             story.setStatus(isCompleted);
+            story.setUpdatedAt(System.currentTimeMillis());
             storyDao.updateStory(story);
         }).start();
     }
@@ -56,9 +57,6 @@ public class StoryEditViewModel extends AndroidViewModel {
             });
         }).start();
     }
-
-
-
     public void editChapter(AppCompatActivity activity, Chapter chapter) {
         ChapterEditLauncher.launchEditor(activity, chapter);
     }

@@ -79,22 +79,21 @@ public class HomeFragment extends Fragment{
         });
 
         viewModel.getRecentlyUpdatedStoryList().observe(getViewLifecycleOwner(), stories -> {
-            if(stories != null){
-                List<Story> reversed = new ArrayList<>(stories);
-                Collections.reverse(reversed);
-                stories = reversed;
+            if (stories != null) {
+                StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
+                    @Override
+                    public void onStoryClick(String storyId) {
+                        Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
+                        intent.putExtra("storyId", storyId);
+                        startActivity(intent);
+                        Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                binding.recyclerViewRecentlyUpdated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                binding.recyclerViewRecentlyUpdated.setAdapter(adapter);
             }
-            StoryAdapter adapter = new StoryAdapter(requireContext(), stories, new StoryAdapter.OnStoryClickListener() {
-                @Override
-                public void onStoryClick(String storyId) {Intent intent = new Intent(requireContext(), StoryDetailActivity.class);
-                    intent.putExtra("storyId", storyId);
-                    startActivity(intent);
-                    Toast.makeText(requireContext(), "Clicked on story ID: " + storyId, Toast.LENGTH_SHORT).show();
-                }
-            });
-            binding.recyclerViewRecentlyUpdated.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewRecentlyUpdated.setAdapter(adapter);
         });
+
 
         viewModel.getCompleteStoryList().observe(getViewLifecycleOwner(), stories -> {
             if(stories != null){

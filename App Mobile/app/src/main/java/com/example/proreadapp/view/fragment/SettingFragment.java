@@ -1,6 +1,7 @@
 package com.example.proreadapp.view.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,12 @@ public class SettingFragment extends Fragment{
 
         binding.btnSuaStory.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), StoryListEditActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnAbout.setOnClickListener(v -> {
+            String url = "https://github.com/HandQ2212/ProReadApp";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         });
 
