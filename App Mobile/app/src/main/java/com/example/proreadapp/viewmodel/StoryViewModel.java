@@ -50,6 +50,10 @@ public class StoryViewModel extends AndroidViewModel {
     public void insertChapter(Chapter chapter) {
         repository.insertChapter(chapter);
     }
+    public void updateChapter(Chapter chapter) {
+        repository.updateChapter(chapter);
+    }
+
 
     public LiveData<List<Category>> getCategoriesByStoryId(String storyId) {
         return repository.getCategoriesByStoryId(storyId);

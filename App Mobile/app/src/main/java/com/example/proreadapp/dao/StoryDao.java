@@ -52,8 +52,9 @@ public interface StoryDao {
     @Query("SELECT * FROM stories ORDER BY updatedAt DESC")
     LiveData<List<Story>> getRecentlyUpdatedStories();
 
-    @Query("SELECT * FROM stories WHERE status = 'complete'")
+    @Query("SELECT * FROM stories WHERE status = 1")
     LiveData<List<Story>> getCompleteStories();
+
 
     // Chèn hoặc bỏ qua nếu trùng key
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -93,4 +94,7 @@ public interface StoryDao {
 
     @Insert
     long insertChapter(Chapter chapter);
+
+    @Update
+    void updateChapter(Chapter chapter);
 }

@@ -60,11 +60,7 @@ public class StoryEditViewModel extends AndroidViewModel {
 
 
     public void editChapter(AppCompatActivity activity, Chapter chapter) {
-        if (chapter == null || activity == null) return;
-
-        Intent intent = new Intent(activity, ChapterAddEditActivity.class);
-        intent.putExtra("chapterId", chapter.getId());
-        activity.startActivity(intent);
+        ChapterEditLauncher.launchEditor(activity, chapter);
     }
 
 }

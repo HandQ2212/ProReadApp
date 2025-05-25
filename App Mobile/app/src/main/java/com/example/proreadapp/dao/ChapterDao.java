@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.proreadapp.model.Chapter;
 
@@ -23,5 +24,7 @@ public interface ChapterDao{
     @Query("SELECT * FROM chapters WHERE storyId = :storyId AND currentChapter = :chapterNumber LIMIT 1")
     LiveData<Chapter> getChapterByStoryAndChapter(String storyId, int chapterNumber);
 
+    @Update
+    void update(Chapter chapter);
 
 }

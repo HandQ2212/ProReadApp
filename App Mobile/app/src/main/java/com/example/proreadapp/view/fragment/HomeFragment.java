@@ -30,9 +30,6 @@ import java.util.List;
 public class HomeFragment extends Fragment{
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
-    private List<Story> favoriteStoryList;
-    private List<Story> mostViewStoryList;
-    private List<Story> trendingStoryList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -43,16 +40,6 @@ public class HomeFragment extends Fragment{
         viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
 
         observerData();
-
-        binding.layoutFavorite.setOnClickListener(v ->{
-            navigateToShowListActivity("Yêu Thích", favoriteStoryList);
-        });
-        binding.layoutMostView.setOnClickListener(v ->{
-            navigateToShowListActivity("Xem Nhiều", mostViewStoryList);
-        });
-        binding.layoutTrending.setOnClickListener(v ->{
-            navigateToShowListActivity("Thịnh Hành", trendingStoryList);
-        });
 
         return binding.getRoot();
     }

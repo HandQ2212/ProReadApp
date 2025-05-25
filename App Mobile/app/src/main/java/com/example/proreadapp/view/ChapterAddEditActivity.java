@@ -130,18 +130,19 @@ public class ChapterAddEditActivity extends AppCompatActivity {
 
         if (isEditMode && chapterId != -1) {
             chapter.setId(chapterId);
+            storyViewModel.updateChapter(chapter); // <- Cập nhật
+        } else {
+            storyViewModel.insertChapter(chapter); // <- Thêm mới
         }
 
-        storyViewModel.insertChapter(chapter);
 
         Toast.makeText(this, "Chapter saved", Toast.LENGTH_SHORT).show();
 
         if (!isEditMode) {
             setResult(RESULT_OK);
-        } else {
-            finish();
         }
     }
+
 
     private void clearFieldsForNextChapter() {
         try {
