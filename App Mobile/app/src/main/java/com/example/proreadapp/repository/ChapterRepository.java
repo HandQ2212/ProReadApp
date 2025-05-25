@@ -28,4 +28,9 @@ public class ChapterRepository{
     public LiveData<List<Chapter>> getChaptersByStoryId(String storyId){
         return chapterDao.getChaptersByStoryId(storyId);
     }
+
+    public LiveData<Chapter> getChapterByStoryAndChapter(String storyId, int chapterNumber) {
+        return chapterDao.getChapterByStoryAndChapter(storyId, chapterNumber);
+    }
+
 }

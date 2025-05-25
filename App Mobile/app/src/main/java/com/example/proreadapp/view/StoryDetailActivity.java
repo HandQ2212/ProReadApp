@@ -15,6 +15,9 @@ import com.example.proreadapp.R;
 import com.example.proreadapp.databinding.ActivityStoryDetailBinding;
 import com.example.proreadapp.model.Chapter;
 import com.example.proreadapp.viewmodel.StoryDetailViewModel;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class StoryDetailActivity extends AppCompatActivity {
 
@@ -64,10 +67,19 @@ public class StoryDetailActivity extends AppCompatActivity {
 
         storyDetailViewModel.getChaptersByStoryId(storyIdStr).observe(this, chapters -> {
             if (chapters != null && !chapters.isEmpty()) {
+                ArrayList<Integer> chapterIds = new ArrayList<>();
                 Chapter firstChapter = chapters.get(0);
+                for (Chapter chapter : chapters) {
+                    Log.d("StoryDetailActivity", "Chapter ID: " + chapter.getId()
+                            + ", Title: " + chapter.getTitle()
+                            + ", CurrentChapter: " + chapter.getCurrentChapter());
+                    chapterIds.add(chapter.getId());
+                }
+
 
                 binding.btnRead.setOnClickListener(v -> {
                     Intent intent = new Intent(this, ChapterReaderActivity.class);
+                    intent.putIntegerArrayListExtra("chapter_ids", chapterIds);
                     intent.putExtra("chapter_id", firstChapter.getId());
                     intent.putExtra("story_title", storyDetailViewModel.getStoryLiveData().getValue().getTitle());
                     startActivity(intent);

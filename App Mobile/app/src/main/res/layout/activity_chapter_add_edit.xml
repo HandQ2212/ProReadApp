@@ -97,6 +97,12 @@
 
 
             <Button
+                android:id="@+id/btn_next_chapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Next Chapter"/>
+
+            <Button
                 android:id="@+id/btn_save_chapter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

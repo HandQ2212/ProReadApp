@@ -22,14 +22,16 @@
             android:textColor="@color/text_color"
 
             android:paddingBottom="8dp"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_layout_oval_xam"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingVertical="12dp">
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -54,15 +56,17 @@
             android:paddingBottom="8dp"
             android:text="Cài đặt đọc"
             android:textColor="@color/text_color"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/btn_font_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_layout_oval_xam"
             android:orientation="horizontal"
-            android:paddingVertical="12dp">
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -73,21 +77,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/btn_downloads"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Truyện đã tải"
-                android:textColor="@color/text_color"
-                android:textSize="16sp" />
-        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -97,14 +86,16 @@
             android:textColor="@color/text_color"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/btn_add_story"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_layout_oval_xam"
             android:orientation="horizontal"
-            android:paddingVertical="12dp">
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -112,6 +103,25 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_color"
                 android:text="Thêm truyện"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_sua_story"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_layout_oval_xam"
+            android:orientation="horizontal"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color"
+                android:text="Sửa truyện"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -123,14 +133,16 @@
             android:textColor="@color/text_color"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/btn_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_layout_oval_xam"
             android:orientation="horizontal"
-            android:paddingVertical="12dp">
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="16dp">
 
             <TextView
                 android:layout_width="0dp"

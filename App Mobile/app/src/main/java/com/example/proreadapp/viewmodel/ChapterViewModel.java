@@ -29,12 +29,18 @@ public class ChapterViewModel extends AndroidViewModel {
         return getChapterById(currentChapterId);
     }
 
+    public LiveData<Chapter> getChapterByStoryAndChapter(String storyId, int chapterNumber) {
+        return chapterDao.getChapterByStoryAndChapter(storyId, chapterNumber);
+    }
+
+
     public LiveData<Chapter> getPreviousChapter() {
         if (currentChapterId > 1) {
             currentChapterId--;
         }
         return getChapterById(currentChapterId);
     }
+
 
     public int getCurrentChapterId() {
         return currentChapterId;

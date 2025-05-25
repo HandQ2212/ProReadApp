@@ -20,11 +20,6 @@
         android:label="Tìm kiếm" />
 
     <fragment
-        android:id="@+id/offlineFragment"
-        android:name="com.example.proreadapp.view.fragment.OfflineFragment"
-        android:label="Offline" />
-
-    <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.proreadapp.view.fragment.SettingFragment"
         android:label="Cài đặt" />

@@ -16,11 +16,6 @@
         android:title="Tìm kiếm"/>
 
     <item
-        android:id="@+id/offlineFragment"
-        android:icon="@drawable/ic_offline"
-        android:title="Offline"/>
-
-    <item
         android:id="@+id/settingFragment"
         android:icon="@drawable/ic_setting"
         android:title="Setting"/>
