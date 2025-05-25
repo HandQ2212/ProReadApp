@@ -130,9 +130,9 @@ public class ChapterAddEditActivity extends AppCompatActivity {
 
         if (isEditMode && chapterId != -1) {
             chapter.setId(chapterId);
-            storyViewModel.updateChapter(chapter); // <- Cập nhật
+            storyViewModel.updateChapter(chapter);
         } else {
-            storyViewModel.insertChapter(chapter); // <- Thêm mới
+            storyViewModel.insertChapter(chapter);
         }
 
 
@@ -152,7 +152,6 @@ public class ChapterAddEditActivity extends AppCompatActivity {
             binding.editCurrentChapter.setText(String.valueOf(nextChapter));
             binding.editTotalChapters.setText(String.valueOf(Math.max(nextChapter, Integer.parseInt(binding.editTotalChapters.getText().toString().trim()))));
         } catch (NumberFormatException e) {
-            // fallback
         }
     }
 

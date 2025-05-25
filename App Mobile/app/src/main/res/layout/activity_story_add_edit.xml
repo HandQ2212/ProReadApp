@@ -121,7 +121,15 @@
                 android:id="@+id/btn_select_categories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chọn thể loại" />
+                android:text="Thêm thể loại" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thể loại có thể chọn"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="2dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerCategories"

@@ -18,9 +18,6 @@ public class SearchViewModel extends ViewModel {
     private final MutableLiveData<String> searchQuery = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    // LiveData kết quả search sẽ tự động cập nhật khi searchQuery thay đổi
-
-
     public SearchViewModel(Context context) {
         repository = SearchRepository.getInstance(context);
     }

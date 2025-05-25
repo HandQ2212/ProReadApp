@@ -80,7 +80,6 @@ public class SettingFragment extends Fragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fontSpinner.setAdapter(adapter);
 
-        // Observe current settings
         readerSettingViewModel.getSelectedFont().observe(getViewLifecycleOwner(), font ->{
             int index = java.util.Arrays.asList(fonts).indexOf(font);
             if (index >= 0) fontSpinner.setSelection(index);
@@ -104,8 +103,12 @@ public class SettingFragment extends Fragment{
                 .setTitle("Cài đặt Font & Kích thước")
                 .setView(dialogView)
                 .setPositiveButton("Lưu", (dialog, which) ->{
-                    readerSettingViewModel.setSelectedFont(fontSpinner.getSelectedItem().toString());
-                    readerSettingViewModel.setFontSize(fontSizeSeekBar.getProgress());
+                    String font = fontSpinner.getSelectedItem().toString();
+                    int size = fontSizeSeekBar.getProgress();
+                    readerSettingViewModel.setSelectedFont(font);
+                    readerSettingViewModel.setFontSize(size);
+
+                    readerSettingViewModel.saveToPrefs(requireContext());
                 })
                 .setNegativeButton("Hủy", null)
                 .show();

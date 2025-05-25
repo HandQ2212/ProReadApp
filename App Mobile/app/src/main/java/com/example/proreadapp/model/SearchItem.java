@@ -7,9 +7,6 @@ public class SearchItem {
     private String summary;
     private String thumbnailUrl;
 
-    public SearchItem() {
-        //firestore/room
-    }
 
     public SearchItem(String id, String title, String author, String summary, String thumbnailUrl) {
         this.id = id;

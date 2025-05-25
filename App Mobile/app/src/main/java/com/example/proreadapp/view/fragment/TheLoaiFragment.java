@@ -38,7 +38,6 @@ public class TheLoaiFragment extends Fragment {
 
         adapter = new CategoryAdapter(category -> {
             Toast.makeText(getContext(), "Chọn thể loại: " + category.getName(), Toast.LENGTH_SHORT).show();
-            // TODO: Chuyển fragment, truyền category.getId() hoặc category.getName()
             Intent intent = new Intent(getContext(), ShowListActivity.class);
             intent.putExtra("categoryId", category.getId());
             intent.putExtra("title", category.getName());

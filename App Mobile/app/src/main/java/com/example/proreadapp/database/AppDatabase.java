@@ -27,8 +27,6 @@ public abstract class AppDatabase extends RoomDatabase {
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "proread_database")
-                    //.addMigrations(MIGRATION_1_2, MIGRATION_2_3) // thêm nếu có migration
-                    .fallbackToDestructiveMigration() // xóa db cũ nếu version tăng mà không có migration
                     .build();
         }
         return instance;

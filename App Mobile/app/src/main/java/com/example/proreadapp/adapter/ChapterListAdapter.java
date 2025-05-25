@@ -60,7 +60,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         public void bind(Chapter chapter) {
             binding.textChapterTitle.setText(chapter.getTitle());
 
-            // Ví dụ thêm nút sửa chương:
             binding.btnEditChapter.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onEditClick(chapter);
